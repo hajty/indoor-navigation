@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
@@ -115,17 +116,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         mMap = googleMap;
 
-        LatLng weii = new LatLng(51.236451, 22.548368);                    // Marker WEII
+        LatLng weii = new LatLng(51.236381, 22.548308);                    // Marker WEII
         LatLngBounds weiiBounds = new LatLngBounds(                               // Wierzchołki prostokąta do podmiany
-                new LatLng(51.236451, 22.548368),                           // SW
-                new LatLng(51.237171, 22.549522));                          // NE
+                new LatLng(51.236381, 22.548308),                           // SW
+                new LatLng(51.237231, 22.549652));                          // NE
 
         mMap.addGroundOverlay(new GroundOverlayOptions()
-        .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))        // Podmiana wycinka mapy
+        .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                       // Podmiana wycinka mapy
         .positionFromBounds(weiiBounds));
 
-        mMap.addMarker(new MarkerOptions().position(weii));                      // Dodanie markera WEII
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(weii));                  // Ustawienie kamery na marker WEII
+        mMap.addMarker(new MarkerOptions().position(weii).draggable(true));                      // Dodanie markera WEII
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(weii));                                   // Ustawienie kamery na marker WEII
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener()                       // do pomiarów
+        {
+            @Override
+            public void onMarkerDragStart(Marker marker)
+            {
+
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker)
+            {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker)
+            {
+                Toast.makeText(getApplicationContext(), "N: "+ String.valueOf(marker.getPosition().latitude) + "\nE: " + marker.getPosition().longitude, Toast.LENGTH_LONG).show();
+            }
+        });
 
         //mMap.getUiSettings().isZoomGesturesEnabled(true);                       //ustawienie zoom
         // Add a marker in Sydney and move the camera
