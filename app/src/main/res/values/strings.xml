@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Nawigacja Pollub</string>
     <string name="title_activity_maps">Mapa</string>
+    <string name="title_activity_menu">Menu</string>
     <string name="callHelpButton">Button</string>
+    <string name="buttonWeii">Wydział Elektrotechniki i Informatyki</string>
 </resources>
