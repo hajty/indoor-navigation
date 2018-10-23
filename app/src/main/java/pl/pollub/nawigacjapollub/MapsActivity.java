@@ -1,6 +1,7 @@
 package pl.pollub.nawigacjapollub;
 
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -25,6 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public final static int REQUEST_ACCESS_WIFI = 300;
     public final static int REQUEST_CHANGE_WIFI = 400;
 
+    private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
 
     @Override
@@ -116,20 +119,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         mMap = googleMap;
 
-        LatLng weii = new LatLng(51.236381, 22.548308);                    // Marker WEII
-        LatLngBounds weiiBounds = new LatLngBounds(                               // Wierzchołki prostokąta do podmiany
-                new LatLng(51.236381, 22.548308),                           // SW
-                new LatLng(51.237231, 22.549652));                          // NE
+        LatLng weiiMarker = new LatLng(51.236994, 22.54918);                                // Współrzędne markera WEII
+        LatLng weiiCamera = new LatLng(51.237132, 22.54927);                                   // Współrzędne do ustawienia kamery
+        LatLngBounds weiiBounds = new LatLngBounds(                                                  // Wierzchołki prostokąta do podmiany
+                new LatLng(51.236381, 22.548308),                                            // SW
+                new LatLng(51.237231, 22.549652));                                           // NE
+
+        try
+        {
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style_json));
+                                                                                                    // Dodanie stylu, który usuwa etykiety z mapy
+            if (!success) Log.e(TAG, "Style parsing failed.");
+
+        }
+        catch (Resources.NotFoundException e)
+        {
+            Log.e(TAG, "Can't find style. Error: ", e);
+        }
+
 
         mMap.addGroundOverlay(new GroundOverlayOptions()
-        .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                       // Podmiana wycinka mapy
+        .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
         .positionFromBounds(weiiBounds));
 
-        mMap.addMarker(new MarkerOptions().position(weii).draggable(true));                      // Dodanie markera WEII
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(weii));                                   // Ustawienie kamery na marker WEII
-        mMap.setMinZoomPreference(20.0f);                                                       //Ustawienie domyślnego zoomu na starcie
+        mMap.addMarker(new MarkerOptions().position(weiiMarker).draggable(true));                   // Dodanie markera WEII
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(weiiCamera));                                 // Ustawienie kamery na wejście do WEII
+        mMap.setMinZoomPreference(20.0f);                                                           //Ustawienie domyślnego zoomu na starcie
 
-        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener()                       // do pomiarów
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener()                           // do pomiarów
         {
             @Override
             public void onMarkerDragStart(Marker marker)
