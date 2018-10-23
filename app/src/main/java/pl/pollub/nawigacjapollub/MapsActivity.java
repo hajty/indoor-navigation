@@ -127,6 +127,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(weii).draggable(true));                      // Dodanie markera WEII
         mMap.moveCamera(CameraUpdateFactory.newLatLng(weii));                                   // Ustawienie kamery na marker WEII
+        mMap.setMinZoomPreference(20.0f);                                                       //Ustawienie domyślnego zoomu na starcie
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener()                       // do pomiarów
         {
