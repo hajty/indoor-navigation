@@ -15,11 +15,19 @@
     tools:context=".MapsActivity" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/callHelp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
         android:drawableBottom="@drawable/ic_add_alert_black_24dp" />
+
+    <Button
+        android:id="@+id/addRoute"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:drawableBottom="@drawable/ic_add_location_black_24dp"
+        android:gravity="end"
+        android:onClick="addRouteOnClick"/>
 
 
 </FrameLayout>

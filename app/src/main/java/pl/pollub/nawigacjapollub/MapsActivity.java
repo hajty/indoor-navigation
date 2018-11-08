@@ -1,10 +1,12 @@
 package pl.pollub.nawigacjapollub;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,6 +43,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    public void addRouteOnClick(View v) {
+        Intent intent = new Intent(this,ChooseRouteActivity.class);
+        startActivity(intent);
+    }
 
     /**
      * Manipulates the map once available.
