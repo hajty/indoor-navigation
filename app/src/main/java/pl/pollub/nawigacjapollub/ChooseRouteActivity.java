@@ -53,9 +53,5 @@ public class ChooseRouteActivity extends AppCompatActivity {
 
     public void showRoomsList() {
 
-
-
-
-
     }
 }
