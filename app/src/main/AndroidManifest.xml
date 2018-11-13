@@ -34,8 +34,7 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
-        </activity>
+            android:label="@string/title_activity_maps"></activity>
         <!-- temporary to fix bug with Android Pie 9.0 -->
         <uses-library
             android:name="org.apache.http.legacy"
@@ -46,8 +45,11 @@
             android:label="@string/title_activity_menu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TestDatabaseActivity"></activity>
     </application>
+
 </manifest>

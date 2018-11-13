@@ -20,4 +20,10 @@ public class MenuActivity extends Activity
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
+
+    public void buttonTestDatabaseOnClick(View v)
+    {
+        Intent intent = new Intent(this, TestDatabaseActivity.class);
+        startActivity(intent);
+    }
 }
