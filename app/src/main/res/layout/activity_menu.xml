@@ -31,4 +31,11 @@
         android:layout_height="wrap_content"
         android:onClick="buttonTestDatabaseOnClick"
         android:text="Test Database" />
+
+    <Button
+        android:id="@+id/buttonTestWifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="buttonTestWifiOnClick"
+        android:text="Test Wifi" />
 </LinearLayout>

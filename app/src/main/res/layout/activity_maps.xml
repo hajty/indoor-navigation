@@ -15,11 +15,18 @@
     tools:context=".MapsActivity" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonHelp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
         android:drawableBottom="@drawable/ic_add_alert_black_24dp" />
 
+    <Button
+        android:id="@+id/buttonLocalizeMe"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="450dp"
+        android:onClick="buttonLocalizeMeOnClick"/>
 
 </FrameLayout>
