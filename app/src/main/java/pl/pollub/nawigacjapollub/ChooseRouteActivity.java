@@ -1,14 +1,18 @@
 package pl.pollub.nawigacjapollub;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+
+import java.util.List;
 
 public class ChooseRouteActivity extends AppCompatActivity {
 
@@ -22,24 +26,22 @@ public class ChooseRouteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose);
 
         spinner = (Spinner) findViewById(R.id.listFirst);
-
-        String[] roomsList = {
-                "E114",
-                "E115",
-                "E116"
-        };
+        RoomsDbHelper helper = new RoomsDbHelper(ChooseRouteActivity.this);
+        String[] roomList = helper.getAllSpinnerContent();
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_list_item_1,
-                roomsList
+                android.R.layout.simple_spinner_item,
+                roomList
         );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinner.setAdapter(adapter);
-                showRoomsList();
+                return;
             }
 
             @Override
@@ -47,11 +49,5 @@ public class ChooseRouteActivity extends AppCompatActivity {
 
             }
         });
-
-
-    }
-
-    public void showRoomsList() {
-
     }
 }

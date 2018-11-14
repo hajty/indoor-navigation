@@ -21,4 +21,10 @@ public class MenuActivity extends Activity
         startActivity(intent);
     }
 
+    public void buttonTestDatabaseOnClick(View v)
+    {
+        Intent intent = new Intent(this, TestDatabaseActivity.class);
+        startActivity(intent);
+    }
+
 }
