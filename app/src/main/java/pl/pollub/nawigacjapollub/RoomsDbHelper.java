@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoomsDbHelper extends SQLiteOpenHelper {
 
@@ -16,8 +18,8 @@ public class RoomsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String[] groundFloor = {"E114, E115, E116"};
-
+        String[] groundFloor = {"E114 ", "E115 ", "E116"};
+        Log.i(groundFloor[0], "QQQQQQQQQQQQQQQQQQ");
         db.execSQL(RoomsContract.RoomsEntry.CREATE_TABLE);
 
         for(int i=0; i<groundFloor.length; i++) {
@@ -34,11 +36,11 @@ public class RoomsDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String[] getAllSpinnerContent(){
+    public List<String> getAllSpinnerContent(){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + RoomsContract.RoomsEntry.COLUMN_NAME_ROOM;
+        String query = "SELECT * FROM " + RoomsContract.RoomsEntry.TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
-        ArrayList<String> spinnerContent = new ArrayList<String>();
+        List<String> spinnerContent = new ArrayList<String>();
         if(cursor.moveToFirst()){
             do{
                 String word = cursor.getString(cursor.getColumnIndexOrThrow(RoomsContract.RoomsEntry.COLUMN_NAME_ROOM));
@@ -46,10 +48,8 @@ public class RoomsDbHelper extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
         cursor.close();
-
-        String[] allSpinner = new String[spinnerContent.size()];
-        allSpinner = spinnerContent.toArray(allSpinner);
-
-        return allSpinner;
+        db.close();
+        Log.i(spinnerContent.get(0), "QQQQQQQQQQQQQQ");
+        return spinnerContent;
     }
 }

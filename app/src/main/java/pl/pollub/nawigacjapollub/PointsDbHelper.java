@@ -71,4 +71,46 @@ public class PointsDbHelper extends SQLiteOpenHelper
 
         return cursor;
     }
+
+    public Cursor getPoint(String[] MACs)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {
+                PointsContract.PointsEntry.COLUMN_NAME_N,
+                PointsContract.PointsEntry.COLUMN_NAME_E
+        };
+        String selection;
+        String[] selectionArgs;
+
+//        if (MACs.length == 1)
+//        {
+//            selection = PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?";
+//            selectionArgs = new String[] {MACs[0]};
+//        }
+//        else if (MACs.length == 2)
+//        {
+//            selection = PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?"
+//                      + " AND "
+//                      + PointsContract.PointsEntry.COLUMN_NAME_MAC2 + " = ?";
+//            selectionArgs = new String[] {MACs[0], MACs[1]};
+//        }
+//        else return null;
+
+        selection = PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?"
+                + " OR "
+                + PointsContract.PointsEntry.COLUMN_NAME_MAC2 + " = ?";
+        selectionArgs = new String[] {MACs[0], MACs[1]};
+
+        Cursor cursor = db.query(
+                PointsContract.PointsEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        return cursor;
+    }
 }

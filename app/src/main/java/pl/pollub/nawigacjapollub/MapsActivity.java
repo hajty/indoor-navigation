@@ -1,14 +1,18 @@
 package pl.pollub.nawigacjapollub;
 
+
 import android.content.Intent;
+import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,29 +26,28 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
-{
-    public final static int REQUEST_SMS = 100;
-    public final static int REQUEST_ACCESS_FINE_LOCATION = 200;
-    public final static int REQUEST_ACCESS_WIFI = 300;
-    public final static int REQUEST_CHANGE_WIFI = 400;
+import static pl.pollub.nawigacjapollub.MenuActivity.REQUEST_ACCESS_FINE_LOCATION;
+import static pl.pollub.nawigacjapollub.MenuActivity.REQUEST_SMS;
 
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
+    private Context context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        this.context = this.getApplicationContext();
     }
 
     public void addRouteOnClick(View v) {
-        Intent intent = new Intent(this,ChooseRouteActivity.class);
+        Intent intent = new Intent(this, ChooseRouteActivity.class);
         startActivity(intent);
     }
 
@@ -58,71 +61,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
-    {
-        switch (requestCode)
-        {
-            case REQUEST_SMS:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_SMS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Nadano uprawnienia wysyłania SMS",
                             Toast.LENGTH_LONG).show();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Nie nadano uprawnień wysyłania SMS",
                             Toast.LENGTH_LONG).show();
                 }
             }
 
-            case REQUEST_ACCESS_FINE_LOCATION:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+            case REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
                             Toast.LENGTH_LONG).show();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
                             Toast.LENGTH_LONG).show();
                 }
             }
 
-            case REQUEST_ACCESS_WIFI:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia stanu sieci Wi-Fi",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień stanu sieci Wi-Fi",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-
-            case REQUEST_CHANGE_WIFI:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia zmiany sieci Wi-Fi",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień zmiany sieci Wi-Fi",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
+            context = this.getApplicationContext();
         }
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         LatLng weiiMarker = new LatLng(51.236994, 22.54918);                                // Współrzędne markera WEII
@@ -131,24 +97,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(51.236381, 22.548308),                                            // SW
                 new LatLng(51.237231, 22.549652));                                           // NE
 
-        try
-        {
+        try {
             boolean success = googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.style_json));
-                                                                                                    // Dodanie stylu, który usuwa etykiety z mapy
+            // Dodanie stylu, który usuwa etykiety z mapy
             if (!success) Log.e(TAG, "Style parsing failed.");
 
-        }
-        catch (Resources.NotFoundException e)
-        {
+        } catch (Resources.NotFoundException e) {
             Log.e(TAG, "Can't find style. Error: ", e);
         }
 
 
         mMap.addGroundOverlay(new GroundOverlayOptions()
-        .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
-        .positionFromBounds(weiiBounds));
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
+                .positionFromBounds(weiiBounds));
 
         mMap.addMarker(new MarkerOptions().position(weiiMarker).draggable(true));                   // Dodanie markera WEII
         mMap.moveCamera(CameraUpdateFactory.newLatLng(weiiCamera));                                 // Ustawienie kamery na wejście do WEII
@@ -157,21 +120,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener()                           // do pomiarów
         {
             @Override
-            public void onMarkerDragStart(Marker marker)
-            {
+            public void onMarkerDragStart(Marker marker) {
 
             }
 
             @Override
-            public void onMarkerDrag(Marker marker)
-            {
+            public void onMarkerDrag(Marker marker) {
 
             }
 
             @Override
-            public void onMarkerDragEnd(Marker marker)
-            {
-                Toast.makeText(getApplicationContext(), "N: "+ String.valueOf(marker.getPosition().latitude) + "\nE: " + marker.getPosition().longitude, Toast.LENGTH_LONG).show();
+            public void onMarkerDragEnd(Marker marker) {
+                Toast.makeText(getApplicationContext(), "N: " + String.valueOf(marker.getPosition().latitude) + "\nE: " + marker.getPosition().longitude, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -179,5 +139,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(weii));
+    }
+
+    public void buttonLocalizeMeOnClick(View v) {
+        WifiHelper wifiHelper = new WifiHelper(this.context);
+        Navigation navigation = new Navigation(this.context);
+        LatLng position;
+
+        String[] macs = wifiHelper.getBestMacs();
+        if (macs != null) {
+            position = navigation.localize(macs);
+            mMap.addMarker(new MarkerOptions().position(position));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+        } else Toast.makeText(this.context, "WIFI ZWROCILO NULL", Toast.LENGTH_LONG).show();
     }
 }
