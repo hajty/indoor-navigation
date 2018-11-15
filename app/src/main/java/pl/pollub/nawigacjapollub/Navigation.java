@@ -22,9 +22,19 @@ public class Navigation
         LatLng position;
 
         cursor = db.getPoint(MACs);
-        n = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_N));
-        e = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_E));
-        position = new LatLng(n, e);
+
+        if (cursor != null)
+        {
+            if (cursor.getCount() != 0)
+            {
+                cursor.moveToNext();
+                n = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_N));
+                e = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_E));
+                position = new LatLng(n, e);
+            }
+            else position = null;
+        }
+        else position = null;
 
         return position;
     }

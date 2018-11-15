@@ -82,17 +82,25 @@ public class PointsDbHelper extends SQLiteOpenHelper
         String selection;
         String[] selectionArgs;
 
-        if (MACs.length == 1)
+        if (MACs != null)
         {
-            selection = PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?";
-            selectionArgs = new String[] {MACs[0]};
-        }
-        else if (MACs.length == 2)
-        {
-            selection = PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?"
-                      + " AND "
-                      + PointsContract.PointsEntry.COLUMN_NAME_MAC2 + " = ?";
-            selectionArgs = new String[] {MACs[0], MACs[1]};
+            switch (MACs.length)
+            {
+                case 1:
+                    selection = PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?";
+                    selectionArgs = new String[] {MACs[0]};
+                    break;
+
+                case 2:
+                    selection = PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?"
+                            + " AND "
+                            + PointsContract.PointsEntry.COLUMN_NAME_MAC2 + " = ?";
+                    selectionArgs = new String[] {MACs[0], MACs[1]};
+                    break;
+
+                default:
+                    return null;
+            }
         }
         else return null;
 
