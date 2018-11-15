@@ -31,82 +31,82 @@ public class MenuActivity extends Activity
                 REQUEST_ACCESS_COARSE_LOCATION);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
-    {
-        switch (requestCode)
-        {
-            case REQUEST_SMS:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia wysyłania SMS",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień wysyłania SMS",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-
-            case REQUEST_ACCESS_FINE_LOCATION:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-
-            case REQUEST_ACCESS_COARSE_LOCATION:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-
-            case REQUEST_ACCESS_WIFI:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia stanu sieci Wi-Fi",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień stanu sieci Wi-Fi",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-
-            case REQUEST_CHANGE_WIFI:
-            {
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia zmiany sieci Wi-Fi",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień zmiany sieci Wi-Fi",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+//    {
+//        switch (requestCode)
+//        {
+//            case REQUEST_SMS:
+//            {
+//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia wysyłania SMS",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//                else
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień wysyłania SMS",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            case REQUEST_ACCESS_FINE_LOCATION:
+//            {
+//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//                else
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            case REQUEST_ACCESS_COARSE_LOCATION:
+//            {
+//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//                else
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            case REQUEST_ACCESS_WIFI:
+//            {
+//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia stanu sieci Wi-Fi",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//                else
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień stanu sieci Wi-Fi",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            case REQUEST_CHANGE_WIFI:
+//            {
+//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia zmiany sieci Wi-Fi",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//                else
+//                {
+//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień zmiany sieci Wi-Fi",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        }
+//    }
 
     public void buttonWeiiOnClick(View v)
     {

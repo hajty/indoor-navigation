@@ -1,11 +1,9 @@
 package pl.pollub.nawigacjapollub;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,59 +19,48 @@ public class WifiHelper
         this.context = context;
     }
 
-    public String[] getBestMacs()
+    public String[] getBestMacs(int howManyToReturn)
     {
         wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        String[] macsToReturn = new String[howManyToReturn];
 
-        BroadcastReceiver wifiScanReceiver = new BroadcastReceiver()
+        if (!wifiManager.isWifiEnabled())
         {
-            @Override
-            public void onReceive(Context c, Intent intent)
-            {
-                boolean success = intent.getBooleanExtra(
-                        WifiManager.EXTRA_RESULTS_UPDATED, false);
-
-                if (success)
-                {
-                    scanSuccess();
-                }
-                else scanFailure();
-            }
-        };
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-        context.registerReceiver(wifiScanReceiver, intentFilter);
+            wifiManager.setWifiEnabled(true);
+        }
 
         boolean success = wifiManager.startScan();
-        if (!success) scanFailure();
 
-        return this.macs;
+        if (success) scanSuccess();
+        else
+        {
+            Toast.makeText(this.context, "Odczekaj chwilę i spróbuj ponownie...", Toast.LENGTH_LONG).show();
+            return null;
+        }
+
+        for (int i = 0; i < howManyToReturn; i++)
+            macsToReturn[i] = this.macs[i];
+
+        return macsToReturn;
     }
 
     private void scanSuccess()
     {
-        this.macs = new String[2];
         this.results = wifiManager.getScanResults();
 
-        if (this.results.size() == 1) macs[0] = results.get(0).BSSID;
-        else if (this.results.size() > 1)
+        for (int i = 0; i < this.results.size(); )
         {
-            macs[0] = results.get(0).BSSID;
-            macs[1] = results.get(1).BSSID;
+            if (this.results.get(i).frequency >= 2500)
+            {
+                i++;
+                this.results.remove(i-1);
+            }
+            else i++;
         }
-    }
 
-    private void scanFailure()
-    {
-        this.macs = new String[2];
-        this.results = wifiManager.getScanResults();
+        this.macs = new String[this.results.size()];
 
-        if (this.results.size() == 1) macs[0] = results.get(0).BSSID;
-        else if (this.results.size() > 1)
-        {
-            macs[0] = results.get(0).BSSID;
-            macs[1] = results.get(1).BSSID;
-        }
+        for (int i = 0; i < this.results.size(); i++)
+                macs[i] = results.get(i).BSSID;
     }
 }

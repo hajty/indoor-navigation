@@ -146,11 +146,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Navigation navigation = new Navigation(this.context);
         LatLng position;
 
+<<<<<<< HEAD
         String[] macs = wifiHelper.getBestMacs();
         if (macs != null) {
             position = navigation.localize(macs);
             mMap.addMarker(new MarkerOptions().position(position));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
         } else Toast.makeText(this.context, "WIFI ZWROCILO NULL", Toast.LENGTH_LONG).show();
+=======
+        String[] macs = wifiHelper.getBestMacs(2);
+
+        position = navigation.localize(macs);
+
+        if (position != null)
+        {
+            mMap.addMarker(new MarkerOptions().position(position).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+        }
+        else Toast.makeText(this.context, "Nie ustalono pozycji...", Toast.LENGTH_LONG).show();
+>>>>>>> test
     }
 }
