@@ -5,6 +5,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WifiHelper
@@ -47,20 +48,17 @@ public class WifiHelper
     private void scanSuccess()
     {
         this.results = wifiManager.getScanResults();
-
-        for (int i = 0; i < this.results.size(); )
-        {
-            if (this.results.get(i).frequency >= 2500)
-            {
-                i++;
-                this.results.remove(i-1);
-            }
-            else i++;
-        }
-
-        this.macs = new String[this.results.size()];
+        List<String> only24 = new ArrayList<>();
 
         for (int i = 0; i < this.results.size(); i++)
-                macs[i] = results.get(i).BSSID;
+        {
+            if (this.results.get(i).frequency < 2500)
+                only24.add(this.results.get(i).BSSID);
+        }
+
+        this.macs = new String[only24.size()];
+
+        for (int i = 0; i < only24.size(); i++)
+                macs[i] = only24.get(i);
     }
 }

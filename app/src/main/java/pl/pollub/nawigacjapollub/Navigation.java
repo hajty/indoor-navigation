@@ -22,12 +22,6 @@ public class Navigation
         LatLng position;
 
         cursor = db.getPoint(MACs);
-<<<<<<< HEAD
-        cursor.moveToNext();
-        n = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_N));
-        e = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_E));
-        position = new LatLng(n, e);
-=======
 
         if (cursor != null)
         {
@@ -41,7 +35,6 @@ public class Navigation
             else position = null;
         }
         else position = null;
->>>>>>> test
 
         return position;
     }

@@ -1,25 +1,17 @@
 package pl.pollub.nawigacjapollub;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 
-import java.security.SecureRandom;
 import java.util.List;
 
-public class ChooseRouteActivity extends AppCompatActivity {
-
-    Spinner spinner;
-
+public class ChooseRouteActivity extends Activity
+{
+    private Spinner spinnerLast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,7 +19,7 @@ public class ChooseRouteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
 
-        spinner = (Spinner) findViewById(R.id.listFirst);
+        spinnerLast = (Spinner) findViewById(R.id.listLast);
         RoomsDbHelper helper = new RoomsDbHelper(ChooseRouteActivity.this);
         List<String> roomList = helper.getAllSpinnerContent();
 
@@ -38,16 +30,19 @@ public class ChooseRouteActivity extends AppCompatActivity {
         );
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinnerLast.setAdapter(adapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerLast.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
                 return;
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected(AdapterView<?> parent)
+            {
 
             }
         });

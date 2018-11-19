@@ -22,6 +22,7 @@ public class MenuActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        this.setTitle(getResources().getString(R.string.title_activity_menu));
 
         ActivityCompat.requestPermissions(MenuActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},

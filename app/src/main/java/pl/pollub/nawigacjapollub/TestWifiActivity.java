@@ -26,7 +26,7 @@ public class TestWifiActivity extends Activity
     {
         WifiHelper wifiHelper = new WifiHelper(getApplicationContext());
 
-        String[] macs = wifiHelper.getBestMacs(2);
+        String[] macs = wifiHelper.getBestMacs(15);
 
         if (macs != null)
         {
