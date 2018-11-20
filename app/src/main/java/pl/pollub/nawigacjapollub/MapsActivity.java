@@ -2,22 +2,22 @@ package pl.pollub.nawigacjapollub;
 
 
 import android.content.Intent;
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
-import com.google.android.gms.maps.CameraUpdate;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -33,6 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private Context context;
+    Spinner spinnerFloorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng weiiMarker = new LatLng(51.236994, 22.54918);                                // Współrzędne markera WEII
         LatLng weiiCamera = new LatLng(51.237132, 22.54927);                                   // Współrzędne do ustawienia kamery
-        LatLngBounds weiiBounds = new LatLngBounds(                                                  // Wierzchołki prostokąta do podmiany
+        final LatLngBounds weiiBounds = new LatLngBounds(                                                  // Wierzchołki prostokąta do podmiany
                 new LatLng(51.236381, 22.548308),                                            // SW
                 new LatLng(51.237231, 22.549652));                                           // NE
 
@@ -107,6 +108,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (Resources.NotFoundException e) {
             Log.e(TAG, "Can't find style. Error: ", e);
         }
+
+        //**************Utworzenie spinnera oraz zmiana map************************//
+        spinnerFloorList = (Spinner) findViewById(R.id.spinnerFloorList);
+        String[] floorList = {"Parter", "I piętro", "II piętro"};
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                floorList
+        );
+
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFloorList.setAdapter(spinnerAdapter);
+
+        spinnerFloorList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        mMap.addGroundOverlay(new GroundOverlayOptions()
+                                .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
+                                .positionFromBounds(weiiBounds));
+                        break;
+                    case 1:
+                        mMap.addGroundOverlay(new GroundOverlayOptions()
+                                .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_i_pietro))                        // Podmiana wycinka mapy
+                                .positionFromBounds(weiiBounds));
+
+                        break;
+                    case 2:
+                        mMap.addGroundOverlay(new GroundOverlayOptions()
+                                .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_ii_pietro))                        // Podmiana wycinka mapy
+                                .positionFromBounds(weiiBounds));
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        //*************************************************************************//
 
 
         mMap.addGroundOverlay(new GroundOverlayOptions()

@@ -12,6 +12,7 @@ import java.util.List;
 public class ChooseRouteActivity extends Activity
 {
     private Spinner spinnerLast;
+    private Spinner spinnerFirst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,7 +20,9 @@ public class ChooseRouteActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
 
+        spinnerFirst = (Spinner) findViewById(R.id.listFirst);
         spinnerLast = (Spinner) findViewById(R.id.listLast);
+
         RoomsDbHelper helper = new RoomsDbHelper(ChooseRouteActivity.this);
         List<String> roomList = helper.getAllSpinnerContent();
 
@@ -31,6 +34,7 @@ public class ChooseRouteActivity extends Activity
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLast.setAdapter(adapter);
+        spinnerFirst.setAdapter(adapter);
 
         spinnerLast.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {

@@ -18,7 +18,9 @@ public class RoomsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String[] groundFloor = {"E114 ", "E115 ", "E116"};
+        String[] groundFloor = {"E2","E102","E102A","E103","E103A","E104","E105",
+                "E108","E109","E110","E112","E112A","E112B","E113","E113A","E114 ",
+                "E115 ", "E116", "E118", "E119"};
         Log.i(groundFloor[0], "QQQQQQQQQQQQQQQQQQ");
         db.execSQL(RoomsContract.RoomsEntry.CREATE_TABLE);
 
