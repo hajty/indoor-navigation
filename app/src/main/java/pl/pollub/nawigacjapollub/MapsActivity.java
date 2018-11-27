@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,6 +35,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Context context;
     Spinner spinnerFloorList;
+    int floor;
+    Button floorUp, floorDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         this.context = this.getApplicationContext();
+
+        floorUp = (Button) findViewById(R.id.buttonUp);
+        floorDown = (Button) findViewById(R.id.buttonDown);
     }
 
     public void addRouteOnClick(View v) {
@@ -109,49 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e(TAG, "Can't find style. Error: ", e);
         }
 
-        //**************Utworzenie spinnera oraz zmiana map************************//
-        spinnerFloorList = (Spinner) findViewById(R.id.spinnerFloorList);
-        String[] floorList = {"Parter", "I piętro", "II piętro"};
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                floorList
-        );
-
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerFloorList.setAdapter(spinnerAdapter);
-
-        spinnerFloorList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 0:
-                        mMap.addGroundOverlay(new GroundOverlayOptions()
-                                .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
-                                .positionFromBounds(weiiBounds));
-                        break;
-                    case 1:
-                        mMap.addGroundOverlay(new GroundOverlayOptions()
-                                .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_i_pietro))                        // Podmiana wycinka mapy
-                                .positionFromBounds(weiiBounds));
-
-                        break;
-                    case 2:
-                        mMap.addGroundOverlay(new GroundOverlayOptions()
-                                .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_ii_pietro))                        // Podmiana wycinka mapy
-                                .positionFromBounds(weiiBounds));
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        //*************************************************************************//
-
+        showFloor();
 
         mMap.addGroundOverlay(new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
@@ -200,5 +164,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
         }
         else Toast.makeText(this.context, "Nie ustalono pozycji...", Toast.LENGTH_LONG).show();
+    }
+
+    public void showFloor(){
+        final LatLngBounds weiiBounds = new LatLngBounds(                                                  // Wierzchołki prostokąta do podmiany
+                new LatLng(51.236381, 22.548308),                                            // SW
+                new LatLng(51.237231, 22.549652));
+
+        floorUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                floor++;
+                if(floor == 1){
+                    mMap.addGroundOverlay(new GroundOverlayOptions()
+                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_i_pietro))                        // Podmiana wycinka mapy
+                            .positionFromBounds(weiiBounds));
+                } else if(floor == 2){
+                    mMap.addGroundOverlay(new GroundOverlayOptions()
+                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_ii_pietro))                        // Podmiana wycinka mapy
+                            .positionFromBounds(weiiBounds));
+                } else if(floor >= 3){
+                    Toast toast = Toast.makeText(context, "Brak wyższego piętra.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
+
+        floorDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                floor--;
+                if(floor == 1){
+                    mMap.addGroundOverlay(new GroundOverlayOptions()
+                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_i_pietro))                        // Podmiana wycinka mapy
+                            .positionFromBounds(weiiBounds));
+                } else if(floor == 0){
+                    mMap.addGroundOverlay(new GroundOverlayOptions()
+                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
+                            .positionFromBounds(weiiBounds));
+                } else if(floor <= 0){
+                    Toast toast = Toast.makeText(context, "Brak niższego piętra.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
     }
 }
