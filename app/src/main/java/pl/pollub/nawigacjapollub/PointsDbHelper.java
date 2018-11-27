@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PointsDbHelper extends SQLiteOpenHelper
 {
 
@@ -17,6 +20,7 @@ public class PointsDbHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
+        int[] floor = {0, 0, 0, 0, 0, 0, 0};
         String[] ssid1 = {"CONF", "INSTR", "CONF", "CONF", "INSTR", "WEII_AS", "eduroam"};
         String[] ssid2 = {"eduroam", "CONF", "eduroam", "eduroam", "WEII", "CONF", "INSTR"};
         String[] mac1 = {"fc:15:b4:bd:f3:f3", "fc:15:b4:bd:f2:b4", "fc:15:b4:bd:f2:b3",
@@ -28,10 +32,11 @@ public class PointsDbHelper extends SQLiteOpenHelper
 
         db.execSQL(PointsContract.PointsEntry.CREATE_TABLE);
 
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < ssid1.length; i++)
         {
             ContentValues values = new ContentValues();
 
+            values.put(PointsContract.PointsEntry.COLUMN_NAME_FLOOR, floor[i]);
             values.put(PointsContract.PointsEntry.COLUMN_NAME_SSID1, ssid1[i]);
             values.put(PointsContract.PointsEntry.COLUMN_NAME_MAC1, mac1[i]);
             values.put(PointsContract.PointsEntry.COLUMN_NAME_SSID2, ssid2[i]);
@@ -47,12 +52,37 @@ public class PointsDbHelper extends SQLiteOpenHelper
                 e1.printStackTrace();
             }
         }
+
+        int[] pointId = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+        String[] groundFloor = {"E2","E102","E102A","E103","E103A","E104","E105",
+                "E108","E109","E110","E112","E112A","E112B","E113","E113A","E114",
+                "E115", "E116", "E118", "E119"};
+
+        db.execSQL(PointsContract.RoomsEntry.CREATE_TABLE);
+
+        for(int i = 0; i < groundFloor.length; i++)
+        {
+            ContentValues values = new ContentValues();
+
+            values.put(PointsContract.RoomsEntry.COLUMN_NAME_POINT_ID, pointId[i]);
+            values.put(PointsContract.RoomsEntry.COLUMN_NAME_ROOM, groundFloor[i]);
+
+            try
+            {
+                db.insert(PointsContract.RoomsEntry.TABLE_NAME, null, values);
+            } catch (Exception e1)
+            {
+                e1.printStackTrace();
+            }
+        }
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         db.execSQL(PointsContract.PointsEntry.DELETE_TABLE);
+        db.execSQL(PointsContract.RoomsEntry.DELETE_TABLE);
         onCreate(db);
     }
 
@@ -94,8 +124,13 @@ public class PointsDbHelper extends SQLiteOpenHelper
                 case 2:
                     selection = PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?"
                             + " AND "
+                            + PointsContract.PointsEntry.COLUMN_NAME_MAC2 + " = ?"
+                            + " OR "
+                            + PointsContract.PointsEntry.COLUMN_NAME_MAC1 + " = ?"
+                            + " AND "
                             + PointsContract.PointsEntry.COLUMN_NAME_MAC2 + " = ?";
-                    selectionArgs = new String[] {MACs[0], MACs[1]};
+
+                    selectionArgs = new String[] {MACs[0], MACs[1], MACs[1], MACs[0]};
                     break;
 
                 default:
@@ -115,5 +150,36 @@ public class PointsDbHelper extends SQLiteOpenHelper
         );
 
         return cursor;
+    }
+
+    public Cursor getAllRooms()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                PointsContract.RoomsEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        return cursor;
+    }
+
+    public List<String> getAllSpinnerContent()
+    {
+        Cursor cursor = this.getAllRooms();
+
+        List<String> spinnerContent = new ArrayList<>();
+
+        while (cursor.moveToNext())
+        {
+            String roomName = cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.RoomsEntry.COLUMN_NAME_ROOM));
+            spinnerContent.add(roomName);
+        }
+
+        return spinnerContent;
     }
 }
