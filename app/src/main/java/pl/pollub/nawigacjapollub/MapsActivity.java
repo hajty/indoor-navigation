@@ -9,10 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,20 +27,27 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import static pl.pollub.nawigacjapollub.MenuActivity.REQUEST_ACCESS_FINE_LOCATION;
 import static pl.pollub.nawigacjapollub.MenuActivity.REQUEST_SMS;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
+{
     private static final String TAG = MapsActivity.class.getSimpleName();
+    private SupportMapFragment mapFragment;
     private GoogleMap mMap;
     private Context context;
-    Spinner spinnerFloorList;
-    int floor;
-    Button floorUp, floorDown;
+    private Button floorUp, floorDown;
+    private final LatLngBounds weiiBounds = new LatLngBounds(                                        // Wierzchołki prostokąta do podmiany
+            new LatLng(51.236381, 22.548308),                                                // SW
+            new LatLng(51.237231, 22.549652));                                               // NE
+    private final LatLng weiiMarker = new LatLng(51.236994, 22.54918);                       // Współrzędne markera WEII
+    private final LatLng weiiCamera = new LatLng(51.237132, 22.54927);                       // Współrzędne do ustawienia kamery
+    private int floor = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -53,7 +57,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         floorDown = (Button) findViewById(R.id.buttonDown);
     }
 
-    public void addRouteOnClick(View v) {
+    public void addRouteOnClick(View v)
+    {
         Intent intent = new Intent(this, ChooseRouteActivity.class);
         startActivity(intent);
     }
@@ -68,23 +73,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_SMS: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case REQUEST_SMS:
+            {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
                     Toast.makeText(getApplicationContext(), "Nadano uprawnienia wysyłania SMS",
                             Toast.LENGTH_LONG).show();
-                } else {
+                }
+                else
+                {
                     Toast.makeText(getApplicationContext(), "Nie nadano uprawnień wysyłania SMS",
                             Toast.LENGTH_LONG).show();
                 }
             }
 
-            case REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_ACCESS_FINE_LOCATION:
+            {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
                     Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
                             Toast.LENGTH_LONG).show();
-                } else {
+                }
+                else
+                {
                     Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
                             Toast.LENGTH_LONG).show();
                 }
@@ -95,35 +110,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
         mMap = googleMap;
 
-        LatLng weiiMarker = new LatLng(51.236994, 22.54918);                                // Współrzędne markera WEII
-        LatLng weiiCamera = new LatLng(51.237132, 22.54927);                                   // Współrzędne do ustawienia kamery
-        final LatLngBounds weiiBounds = new LatLngBounds(                                                  // Wierzchołki prostokąta do podmiany
-                new LatLng(51.236381, 22.548308),                                            // SW
-                new LatLng(51.237231, 22.549652));                                           // NE
-
-        try {
+        try
+        {
             boolean success = googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
-                            this, R.raw.style_json));
-            // Dodanie stylu, który usuwa etykiety z mapy
+                            this, R.raw.style_json));                                        // Dodanie stylu, który usuwa etykiety z mapy
             if (!success) Log.e(TAG, "Style parsing failed.");
 
-        } catch (Resources.NotFoundException e) {
+        }
+        catch (Resources.NotFoundException e)
+        {
             Log.e(TAG, "Can't find style. Error: ", e);
         }
 
         showFloor();
-
-        mMap.addGroundOverlay(new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
-                .positionFromBounds(weiiBounds));
-
-        mMap.addMarker(new MarkerOptions().position(weiiMarker).draggable(true));                   // Dodanie markera WEII
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(weiiCamera));                                 // Ustawienie kamery na wejście do WEII
-        mMap.setMinZoomPreference(20.0f);                                                           //Ustawienie domyślnego zoomu na starcie
 
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener()                           // do pomiarów
         {
@@ -143,13 +147,65 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(weiiCamera));                                 // Ustawienie kamery na wejście do WEII
         //mMap.getUiSettings().isZoomGesturesEnabled(true);                       //ustawienie zoom
         // Add a marker in Sydney and move the camera
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(weii));
     }
 
-    public void buttonLocalizeMeOnClick(View v) {
+    public void showFloor()
+    {
+        if (floor >= 0 && floor <= 2)
+        {
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(weiiMarker).draggable(true));                   // Dodanie markera WEII
+            //mMap.moveCamera(CameraUpdateFactory.newLatLng(weiiCamera));                                 // Ustawienie kamery na wejście do WEII
+            mMap.setMinZoomPreference(20.0f);                                                           //Ustawienie domyślnego zoomu na starcie
+
+            switch (floor)
+            {
+                case 0:
+                    mMap.addGroundOverlay(new GroundOverlayOptions()
+                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))
+                            .positionFromBounds(weiiBounds));
+                    break;
+                case 1:
+                    mMap.addGroundOverlay(new GroundOverlayOptions()
+                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_i_pietro))
+                            .positionFromBounds(weiiBounds));
+                    break;
+                case 2:
+                    mMap.addGroundOverlay(new GroundOverlayOptions()
+                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_ii_pietro))
+                            .positionFromBounds(weiiBounds));
+                    break;
+            }
+
+            Toast.makeText(this, "Piętro: " + this.floor, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void floorUp(View v)
+    {
+        if (floor != 2)
+        {
+            floor++;
+            showFloor();
+        }
+    }
+
+    public void floorDown(View v)
+    {
+        if (floor != 0)
+        {
+            floor--;
+            showFloor();
+        }
+    }
+
+    public void buttonLocalizeMeOnClick(View v)
+    {
         WifiHelper wifiHelper = new WifiHelper(this.context);
         Navigation navigation = new Navigation(this.context);
         LatLng position;
@@ -164,49 +220,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
         }
         else Toast.makeText(this.context, "Nie ustalono pozycji...", Toast.LENGTH_LONG).show();
-    }
-
-    public void showFloor(){
-        final LatLngBounds weiiBounds = new LatLngBounds(                                                  // Wierzchołki prostokąta do podmiany
-                new LatLng(51.236381, 22.548308),                                            // SW
-                new LatLng(51.237231, 22.549652));
-
-        floorUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                floor++;
-                if(floor == 1){
-                    mMap.addGroundOverlay(new GroundOverlayOptions()
-                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_i_pietro))                        // Podmiana wycinka mapy
-                            .positionFromBounds(weiiBounds));
-                } else if(floor == 2){
-                    mMap.addGroundOverlay(new GroundOverlayOptions()
-                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_ii_pietro))                        // Podmiana wycinka mapy
-                            .positionFromBounds(weiiBounds));
-                } else if(floor >= 3){
-                    Toast toast = Toast.makeText(context, "Brak wyższego piętra.", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            }
-        });
-
-        floorDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                floor--;
-                if(floor == 1){
-                    mMap.addGroundOverlay(new GroundOverlayOptions()
-                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_i_pietro))                        // Podmiana wycinka mapy
-                            .positionFromBounds(weiiBounds));
-                } else if(floor == 0){
-                    mMap.addGroundOverlay(new GroundOverlayOptions()
-                            .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))                        // Podmiana wycinka mapy
-                            .positionFromBounds(weiiBounds));
-                } else if(floor <= 0){
-                    Toast toast = Toast.makeText(context, "Brak niższego piętra.", Toast.LENGTH_LONG);
-                    toast.show();
-                }
-            }
-        });
     }
 }
