@@ -23,10 +23,10 @@ public class ChooseRouteActivity extends Activity
         spinnerFirst = (Spinner) findViewById(R.id.listFirst);
         spinnerLast = (Spinner) findViewById(R.id.listLast);
 
-        RoomsDbHelper helper = new RoomsDbHelper(ChooseRouteActivity.this);
-        List<String> roomList = helper.getAllSpinnerContent();
+        PointsDbHelper dbHelper = new PointsDbHelper(this);
+        List<String> roomList = dbHelper.getAllSpinnerContent();
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 ChooseRouteActivity.this,
                 android.R.layout.simple_spinner_item,
                 roomList
