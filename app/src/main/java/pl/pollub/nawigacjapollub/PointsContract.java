@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public final class PointsContract
 {
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "pollub_nav.db";
 
     private static final String TEXT_TYPE = " TEXT";
@@ -18,6 +18,7 @@ public final class PointsContract
     {
         public static final String TABLE_NAME = "points";
 
+        public static final String COLUMN_NAME_DEPARTMENT = "department";
         public static final String COLUMN_NAME_FLOOR = "floor";
         public static final String COLUMN_NAME_SSID1 = "ssid1";
         public static final String COLUMN_NAME_MAC1 = "mac1";
@@ -28,6 +29,7 @@ public final class PointsContract
 
         public static final String CREATE_TABLE = "CREATE TABLE " +
                 TABLE_NAME + " (" + BaseColumns._ID + " INTEGER PRIMARY KEY," +
+                COLUMN_NAME_DEPARTMENT + TEXT_TYPE + COMMA_SEP +
                 COLUMN_NAME_FLOOR + INTEGER_TYPE + COMMA_SEP +
                 COLUMN_NAME_SSID1 + TEXT_TYPE + COMMA_SEP +
                 COLUMN_NAME_MAC1 + TEXT_TYPE + COMMA_SEP +
@@ -42,13 +44,13 @@ public final class PointsContract
     {
         public static final String TABLE_NAME = "rooms";
 
-        public static final String COLUMN_NAME_ROOM = "room_name";
-        public static final String COLUMN_NAME_POINT_ID = "id_points";
+        public static final String COLUMN_ROOMS_NAMES = "rooms_names";
+        public static final String COLUMN_NAME_ID_POINTS = "id_points";
 
         public static final String CREATE_TABLE = "CREATE TABLE " +
                 TABLE_NAME + " (" + BaseColumns._ID + " INTEGER PRIMARY KEY," +
-                COLUMN_NAME_POINT_ID + INTEGER_TYPE + COMMA_SEP +
-                COLUMN_NAME_ROOM  + TEXT_TYPE + ")";
+                COLUMN_ROOMS_NAMES + INTEGER_TYPE + COMMA_SEP +
+                COLUMN_NAME_ID_POINTS  + TEXT_TYPE + ")";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 }

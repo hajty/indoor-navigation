@@ -30,6 +30,7 @@ public class TestDatabaseActivity extends Activity
         List items = new ArrayList<>();
         while(cursor.moveToNext())
         {
+            items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_DEPARTMENT)));
             items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_FLOOR)));
             items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_SSID1)));
             items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_MAC1)));
