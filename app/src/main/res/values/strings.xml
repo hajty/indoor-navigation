@@ -8,5 +8,7 @@
     <string name="startLabel">Punkt początkowy:</string>
     <string name="finishLabel">Punkt końcowy:</string>
     <string name="startButton">Wyznacz trasę</string>
+    <string name="chooseButton">Wybierz</string>
+    <string name="notChoose">Nie wybrano...</string>
 
 </resources>

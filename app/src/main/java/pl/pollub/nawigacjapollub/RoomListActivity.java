@@ -10,31 +10,36 @@ import android.widget.ListView;
 
 import java.util.List;
 
-public class RoomListActivity extends Activity {
+public class RoomListActivity extends Activity
+{
+    private ListView listView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roomslist);
 
-        final ListView listView = (ListView) findViewById(R.id.list);
+        listView = findViewById(R.id.list);
         PointsDbHelper dbHelper = new PointsDbHelper(this);
-        List<String> roomList = dbHelper.getAllSpinnerContent();
+        List<String> roomList = dbHelper.getAllRoomsAsList();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 RoomListActivity.this,
                 android.R.layout.simple_list_item_1,
                 roomList
         );
 
         listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object obj = listView.getAdapter().getItem(position);
-                String value= obj.toString();
-                Intent intent = new Intent(RoomListActivity.this, ChooseRouteActivity.class);
-                intent.putExtra("value", value);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                String result = listView.getAdapter().getItem(position).toString();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", result);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         });

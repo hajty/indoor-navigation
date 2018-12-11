@@ -205,7 +205,7 @@ public class PointsDbHelper extends SQLiteOpenHelper
         return cursor;
     }
 
-    public List<String> getAllSpinnerContent()
+    public List<String> getAllRoomsAsList()
     {
         Cursor cursor = this.getAllRooms();
 
@@ -214,9 +214,9 @@ public class PointsDbHelper extends SQLiteOpenHelper
         while (cursor.moveToNext())
         {
             String roomName = cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.RoomsEntry.COLUMN_ROOMS_NAMES));
-            String idPoints = cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.RoomsEntry.COLUMN_NAME_ID_POINTS));
+//            String idPoints = cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.RoomsEntry.COLUMN_NAME_ID_POINTS));
             spinnerContent.add(roomName);
-            spinnerContent.add(idPoints);
+//            spinnerContent.add(idPoints);
         }
 
         return spinnerContent;
