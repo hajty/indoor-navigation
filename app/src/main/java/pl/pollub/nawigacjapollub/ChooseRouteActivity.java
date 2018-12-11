@@ -1,18 +1,21 @@
 package pl.pollub.nawigacjapollub;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.List;
 
 public class ChooseRouteActivity extends Activity
 {
-    private Spinner spinnerLast;
-    private Spinner spinnerFirst;
+    TextView textView1;
+    TextView textView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -20,35 +23,34 @@ public class ChooseRouteActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
 
-        spinnerFirst = (Spinner) findViewById(R.id.listFirst);
-        spinnerLast = (Spinner) findViewById(R.id.listLast);
+        textView1 = (TextView)findViewById(R.id.startPoint);
+        textView2 = (TextView) findViewById(R.id.finishPoint);
 
-        PointsDbHelper dbHelper = new PointsDbHelper(this);
-        List<String> roomList = dbHelper.getAllSpinnerContent();
-
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                ChooseRouteActivity.this,
-                android.R.layout.simple_spinner_item,
-                roomList
-        );
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLast.setAdapter(adapter);
-        spinnerFirst.setAdapter(adapter);
-
-        spinnerLast.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
+        textView1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                return;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
+            public void onClick(View v) {
+                Intent intent = new Intent(ChooseRouteActivity.this, RoomListActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChooseRouteActivity.this, RoomListActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            Bundle bundle = data.getExtras();
+            String value = bundle.getString("value");
+            textView1.setText(value);
+            textView2.setText(value);
+        }
     }
 }
