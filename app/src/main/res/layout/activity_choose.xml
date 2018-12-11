@@ -16,10 +16,18 @@
         tools:style="@android:style/Widget.Holo.Light.TextView"
         tools:textSize="24sp" />
 
-    <Spinner
+    <!--<Spinner
         android:id="@+id/listFirst"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="40dp" />-->
+
+    <TextView
+        android:id="@+id/startPoint"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        tools:style="@android:style/Widget.Holo.Light.TextView"
+        tools:textSize="30sp"
+         />
 
     <TextView
         android:id="@+id/textView2"
@@ -30,10 +38,18 @@
         tools:style="@android:style/Widget.Holo.Light.TextView"
         tools:textSize="24sp" />
 
-    <Spinner
+    <!--<Spinner
         android:id="@+id/listLast"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="40dp" />-->
+
+    <TextView
+        android:id="@+id/finishPoint"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        tools:style="@android:style/Widget.Holo.Light.TextView"
+        tools:textSize="30sp"
+        android:inputType="" />
 
     <Button
         android:id="@+id/start"

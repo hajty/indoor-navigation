@@ -38,6 +38,7 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps">
         </activity>
+        <activity android:name=".RoomListActivity"></activity>
         <activity
             android:name=".ChooseRouteActivity"
             android:label="@string/title_activity_maps"></activity>
