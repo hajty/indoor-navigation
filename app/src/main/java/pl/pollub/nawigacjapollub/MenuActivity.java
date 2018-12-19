@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
-import android.widget.Toast;
 
 public class MenuActivity extends Activity
 {
@@ -24,12 +23,33 @@ public class MenuActivity extends Activity
         setContentView(R.layout.activity_menu);
         this.setTitle(getResources().getString(R.string.title_activity_menu));
 
-        ActivityCompat.requestPermissions(MenuActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_ACCESS_FINE_LOCATION);
-        ActivityCompat.requestPermissions(MenuActivity.this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                REQUEST_ACCESS_COARSE_LOCATION);
+        this.checkForPermissions();
+    }
+
+    private void checkForPermissions()
+    {
+        int smsPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+        int fineLocationPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        int coarseLocationPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        if (smsPermission != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    REQUEST_SMS);
+        }
+        if (fineLocationPermission != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(MenuActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_ACCESS_FINE_LOCATION);
+        }
+        if (coarseLocationPermission != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(MenuActivity.this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_ACCESS_COARSE_LOCATION);
+        }
     }
 
 //    @Override
@@ -46,8 +66,9 @@ public class MenuActivity extends Activity
 //                }
 //                else
 //                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień wysyłania SMS",
-//                            Toast.LENGTH_LONG).show();
+//                   Toast.makeText(getApplicationContext(), "Nie nadano uprawnień wysyłania SMS",
+//                           Toast.LENGTH_LONG).show();
+//                    checkForPermissions();
 //                }
 //            }
 //
@@ -60,8 +81,9 @@ public class MenuActivity extends Activity
 //                }
 //                else
 //                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
-//                            Toast.LENGTH_LONG).show();
+//                   Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
+//                           Toast.LENGTH_LONG).show();
+//                    checkForPermissions();
 //                }
 //            }
 //
@@ -74,38 +96,39 @@ public class MenuActivity extends Activity
 //                }
 //                else
 //                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
-//                            Toast.LENGTH_LONG).show();
+////                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
+////                            Toast.LENGTH_LONG).show();
+//                    checkForPermissions();
 //                }
 //            }
 //
-//            case REQUEST_ACCESS_WIFI:
-//            {
-//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia stanu sieci Wi-Fi",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//                else
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień stanu sieci Wi-Fi",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            case REQUEST_CHANGE_WIFI:
-//            {
-//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia zmiany sieci Wi-Fi",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//                else
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień zmiany sieci Wi-Fi",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//            }
+////            case REQUEST_ACCESS_WIFI:
+////            {
+////                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+////                {
+////                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia stanu sieci Wi-Fi",
+////                            Toast.LENGTH_LONG).show();
+////                }
+////                else
+////                {
+////                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień stanu sieci Wi-Fi",
+////                            Toast.LENGTH_LONG).show();
+////                }
+////            }
+////
+////            case REQUEST_CHANGE_WIFI:
+////            {
+////                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+////                {
+////                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia zmiany sieci Wi-Fi",
+////                            Toast.LENGTH_LONG).show();
+////                }
+////                else
+////                {
+////                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień zmiany sieci Wi-Fi",
+////                            Toast.LENGTH_LONG).show();
+////                }
+////            }
 //        }
 //    }
 
