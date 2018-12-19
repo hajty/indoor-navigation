@@ -1,34 +1,53 @@
 package pl.pollub.nawigacjapollub.DijkstraAlgorithm;
 
-public class Edge {
+public class Edge
+{
+    private int fromNodeId;
+    private int toNodeId;
+    private int length;
 
-    private int fromNodeIndex;
-    private int toNodeIndex;
-    private int lenght;
-
-    public Edge(int fromNodeIndex, int toNodeIndex, int lenght) {
-        this.fromNodeIndex = fromNodeIndex;
-        this.toNodeIndex = toNodeIndex;
-        this.lenght = lenght;
+    public Edge(int fromNodeId, int toNodeId, int length)
+    {
+        this.setFromNodeId(fromNodeId);
+        this.setToNodeId(toNodeId);
+        this.setLength(length);
     }
 
-    public int getFromNodeIndex() {
-        return fromNodeIndex;
+    public int getFromNodeId()
+    {
+        return fromNodeId;
     }
 
-    public int getToNodeIndex() {
-        return toNodeIndex;
+    public void setFromNodeId(int fromNodeId)
+    {
+        this.fromNodeId = fromNodeId;
     }
 
-    public int getLenght() {
-        return lenght;
+    public int getToNodeId()
+    {
+        return toNodeId;
     }
 
-    public int getNeighbourIndex(int nodeIndex){
-        if(this.fromNodeIndex == nodeIndex) {
-            return this.toNodeIndex;
-        } else {
-            return this.fromNodeIndex;
-        }
+    public void setToNodeId(int toNodeId)
+    {
+        this.toNodeId = toNodeId;
+    }
+
+    public int getLength()
+    {
+        return length;
+    }
+
+    public void setLength(int length)
+    {
+        this.length = length;
+    }
+
+    public int getNeighbourId(int nodeId)
+    {
+        if (this.fromNodeId == nodeId)
+            return this.getToNodeId();
+        else
+            return this.getFromNodeId();
     }
 }
