@@ -1,12 +1,10 @@
 package pl.pollub.nawigacjapollub;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -37,13 +35,9 @@ import java.util.List;
 
 import pl.pollub.nawigacjapollub.DijkstraAlgorithm.Graph;
 
-import static pl.pollub.nawigacjapollub.MenuActivity.REQUEST_ACCESS_FINE_LOCATION;
-import static pl.pollub.nawigacjapollub.MenuActivity.REQUEST_SMS;
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 {
     private static final String TAG = MapsActivity.class.getSimpleName();
-    private SupportMapFragment mapFragment;
     private GoogleMap mMap;
     private Polyline polyline = null;
     private Context context;
@@ -76,60 +70,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         this.context = this.getApplicationContext();
-
         textViewFloor = findViewById(R.id.textViewFloor);
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
-    {
-        switch (requestCode)
-        {
-            case REQUEST_SMS:
-            {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia wysyłania SMS",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień wysyłania SMS",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-
-            case REQUEST_ACCESS_FINE_LOCATION:
-            {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-
-            context = this.getApplicationContext();
-        }
     }
 
     @Override
@@ -172,7 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMinZoomPreference(20.0f);                                                           //Ustawienie domyślnego zoomu na starcie
         mMap.moveCamera(CameraUpdateFactory.newLatLng(weiiCamera));                                 // Ustawienie kamery na wejście do WEII
-        //mMap.getUiSettings().isZoomGesturesEnabled(true);                       //ustawienie zoom
+        //mMap.getUiSettings().isZoomGesturesEnabled(true);
         // Add a marker in Sydney and move the camera
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(weii));
