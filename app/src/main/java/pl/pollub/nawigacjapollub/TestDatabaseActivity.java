@@ -28,8 +28,12 @@ public class TestDatabaseActivity extends Activity
         Cursor cursor = db.getAllPoints();
 
         List items = new ArrayList<>();
+
+        items.add("POINTS");
+
         while(cursor.moveToNext())
         {
+            items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry._ID)));
             items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_DEPARTMENT)));
             items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_FLOOR)));
             items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_SSID1)));
@@ -40,6 +44,22 @@ public class TestDatabaseActivity extends Activity
             items.add(cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_E)));
         }
         cursor.close();
+
+        cursor = db.getAllEdges();
+
+        items.add("EDGES");
+
+        while(cursor.moveToNext())
+        {
+            items.add("ID");
+            items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.EdgesEntry._ID)));
+            items.add("FROM POINT ID");
+            items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.EdgesEntry.COLUMN_NAME_FROM_POINT_ID)));
+            items.add("TO POINT ID");
+            items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.EdgesEntry.COLUMN_NAME_TO_POINT_ID)));
+            items.add("LENGTH");
+            items.add(cursor.getString(cursor.getColumnIndexOrThrow(PointsContract.EdgesEntry.COLUMN_NAME_LENGTH)));
+        }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,

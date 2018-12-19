@@ -2,11 +2,9 @@ package pl.pollub.nawigacjapollub;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class TestWifiActivity extends Activity
 {
