@@ -80,4 +80,20 @@ public class Graph {
         return storedNodeIndex;
     }
 
+    public Node[] getNodes() {
+        return nodes;
+    }
+
+    public int getNoOfNodes() {
+        return noOfNodes;
+    }
+
+    public Edge[] getEdges() {
+        return edges;
+    }
+
+    public int getNoOfEdges() {
+        return noOfEdges;
+    }
+
 }

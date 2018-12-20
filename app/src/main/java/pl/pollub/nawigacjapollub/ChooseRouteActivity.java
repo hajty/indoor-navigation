@@ -28,22 +28,17 @@ public class ChooseRouteActivity extends Activity
         finishPoint = findViewById(R.id.finishPoint);
     }
 
-    public void buttonChooseStart(View v)
-    {
+    public void buttonChooseStart(View v) {
         Intent intent = new Intent(this, RoomListActivity.class);
-
         startActivityForResult(intent, REQUEST_CODE_CHOOSE_START);
     }
 
-    public void buttonChooseEnd(View v)
-    {
+    public void buttonChooseEnd(View v) {
         Intent intent = new Intent(this, RoomListActivity.class);
-
         startActivityForResult(intent, REQUEST_CODE_CHOOSE_FINISH);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE_CHOOSE_START && resultCode == Activity.RESULT_OK)
@@ -52,6 +47,11 @@ public class ChooseRouteActivity extends Activity
             String value = bundle.getString("result");
 
             startPoint.setText(value);
+
+            Intent intentStartPoint = new Intent();
+            intentStartPoint.putExtra("start", value);
+            setResult(Activity.RESULT_OK, intentStartPoint);
+            finish();
         }
 
         if(requestCode == REQUEST_CODE_CHOOSE_FINISH && resultCode == Activity.RESULT_OK)
@@ -60,6 +60,11 @@ public class ChooseRouteActivity extends Activity
             String value = bundle.getString("result");
 
             finishPoint.setText(value);
+
+            Intent intentFinishPoint = new Intent();
+            intentFinishPoint.putExtra("finish", value);
+            setResult(Activity.RESULT_OK, intentFinishPoint);
+            finish();
         }
     }
 }

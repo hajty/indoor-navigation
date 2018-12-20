@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/startPoint"
-            android:layout_width="300dp"
+            android:layout_width="260dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:text="@string/notChoose"
@@ -68,7 +68,7 @@
 
         <TextView
             android:id="@+id/finishPoint"
-            android:layout_width="300dp"
+            android:layout_width="260dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:text="@string/notChoose"
