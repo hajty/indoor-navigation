@@ -4,6 +4,7 @@
     <string name="title_activity_menu">Menu</string>
     <string name="title_activity_choose_route">Wybór trasy</string>
 
+    <string name="wifiWait">Przekroczono limit skanowań. \nOdczekaj chwilę i spróbuj ponownie.</string>
     <string name="floorGround">Parter</string>
     <string name="floor1">Piętro: 1</string>
     <string name="floor2">Piętro: 2</string>
