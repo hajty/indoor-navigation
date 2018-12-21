@@ -215,34 +215,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.clearPaths();
 
         Graph graph = new Graph(this.context);
-        Cursor cursorStartPoint, cursorFinishPoint;
         int startPointId = 0, finishPointId = 0;
 
         PointsDbHelper db = new PointsDbHelper(this.context);
 
         if (startPoint.equals("Twoja lokalizacja"))
         {
-            WifiHelper wifiHelper = new WifiHelper(this.context);
+            Navigation navigation = new Navigation(this.context);
+            LatLng coordinates = navigation.localizeByWifi();
 
-            String[] macs = wifiHelper.getBestMacs(2);
-            cursorStartPoint = db.getPoint(macs);
-
-            if (cursorStartPoint != null)
-            {
-                cursorStartPoint.moveToNext();
-                startPointId = cursorStartPoint.getInt(cursorStartPoint.getColumnIndexOrThrow(PointsContract.PointsEntry._ID));
-            }
+            if (coordinates != null) startPointId = db.getPoint(coordinates);
         }
         else
         {
-            cursorStartPoint = db.getPoint(startPoint);
-            cursorStartPoint.moveToNext();
-            startPointId = cursorStartPoint.getInt(cursorStartPoint.getColumnIndexOrThrow(PointsContract.PointsEntry._ID));
+            startPointId = db.getPoint(startPoint);
         }
 
-        cursorFinishPoint = db.getPoint(finishPoint);
-        cursorFinishPoint.moveToNext();
-        finishPointId = cursorFinishPoint.getInt(cursorFinishPoint.getColumnIndexOrThrow(PointsContract.PointsEntry._ID));
+        finishPointId = db.getPoint(finishPoint);
 
         if (startPointId != 0 && finishPointId != 0)
         {
