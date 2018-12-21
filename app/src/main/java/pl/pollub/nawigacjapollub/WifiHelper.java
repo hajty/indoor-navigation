@@ -35,12 +35,12 @@ public class WifiHelper
         if (success) scanSuccess();
         else
         {
-            Toast.makeText(this.context, "Odczekaj chwilę i spróbuj ponownie...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, this.context.getString(R.string.wifiWait), Toast.LENGTH_LONG).show();
             return null;
         }
 
-        for (int i = 0; i < howManyToReturn; i++)
-            macsToReturn[i] = this.macs[i];
+        if (macsToReturn.length != 0)
+            System.arraycopy(this.macs, 0, macsToReturn,0, howManyToReturn);
 
         return macsToReturn;
     }
