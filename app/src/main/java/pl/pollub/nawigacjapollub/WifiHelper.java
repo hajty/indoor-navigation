@@ -3,6 +3,7 @@ package pl.pollub.nawigacjapollub;
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,10 +40,16 @@ public class WifiHelper
             return null;
         }
 
-        if (macsToReturn.length != 0)
+        try
+        {
             System.arraycopy(this.macs, 0, macsToReturn,0, howManyToReturn);
-
-        return macsToReturn;
+            return macsToReturn;
+        }
+        catch (IndexOutOfBoundsException | NullPointerException | ArrayStoreException e)
+        {
+            Log.e("WifiHelper", e.toString());
+        }
+        return null;
     }
 
     private void scanSuccess()

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -42,6 +43,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Polyline polyline = null;
     private Context context;
     private TextView textViewFloor;
+    private int startFloor;
+    private int finishFloor;
+    private boolean mode;
     private final LatLngBounds weiiBounds = new LatLngBounds(                                        // Wierzchołki prostokąta do podmiany
             new LatLng(51.236381, 22.548308),                                                // SW
             new LatLng(51.237231, 22.549652));                                               // NE
@@ -119,10 +123,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMinZoomPreference(20.0f);                                                           //Ustawienie domyślnego zoomu na starcie
         mMap.moveCamera(CameraUpdateFactory.newLatLng(weiiCamera));                                 // Ustawienie kamery na wejście do WEII
-        //mMap.getUiSettings().isZoomGesturesEnabled(true);
-        // Add a marker in Sydney and move the camera
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(weii));
     }
 
     private void startChooseRouteActivity()
@@ -142,7 +142,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                if (titleId == R.string.failureMessageTitle) startChooseRouteActivity();
+                if (titleId == R.string.failureMessageTitle ||
+                    titleId == R.string.locationOffTitle)
+                    startChooseRouteActivity();
             }
         });
 
@@ -236,6 +238,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (startPointId != 0 && finishPointId != 0)
         {
             List<Integer> path = graph.calculateShortestPath(startPointId, finishPointId, mode);
+            this.startFloor = db.getFloor(startPointId);
+            this.finishFloor = db.getFloor(finishPointId);
 
             for (int i: path)
             {
@@ -264,12 +268,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else
         {
             showFloor();
-            this.showMessage(R.string.failureMessageTitle, R.string.failureMessageBody);
+            LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            if (locationManager.isLocationEnabled())
+            {
+                this.showMessage(R.string.failureMessageTitle, R.string.failureMessageBody);
+            }
+            else
+            {
+                this.showMessage(R.string.locationOffTitle, R.string.locationOffBody);
+            }
         }
     }
 
     public void showFloor()
     {
+        Marker startPoint = null;
+        Marker finishPoint = null;
+
         if (floor >= 0 && floor <= 2)
         {
             this.clearMap();
@@ -287,13 +302,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     if (!ground0.isEmpty())
                     {
-                        mMap.addMarker(new MarkerOptions().position(ground0.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        startPoint = mMap.addMarker(new MarkerOptions().position(ground0.get(0))
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.start_point_icon))
+                                .title(getString(R.string.path_startpoint_title))
+                                .snippet(getString(R.string.path_startpoint_body)));
+
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(ground0.get(0)));
                         for (LatLng i: ground0)
                             polylineOptions0.add(i).width(10).color(Color.RED);
 
                         polyline = mMap.addPolyline(polylineOptions0);
-                        mMap.addMarker(new MarkerOptions().position(ground0.get(ground0.size()-1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+                        if (finishFloor == 0)
+                        {
+                            finishPoint = mMap.addMarker(new MarkerOptions().position(ground0.get(ground0.size()-1))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.finish_point_icon))
+                                    .title(getString(R.string.path_finishpoint_title))
+                                    .snippet(getString(R.string.path_finishpoint_body)));
+                        }
+                        else
+                        {
+                            if (!mode)
+                            {
+                                finishPoint = mMap.addMarker(new MarkerOptions()
+                                        .position(ground0.get(ground0.size()-1))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.staircase_icon))
+                                        .title(getString(R.string.path_stairs_title))
+                                        .snippet(getString(R.string.path_stairs_body_1) + " "
+                                                + String.valueOf(finishFloor) + " "
+                                                + getString(R.string.path_stairs_body_2)));
+                            }
+                            else
+                            {
+                                finishPoint = mMap.addMarker(new MarkerOptions()
+                                        .position(ground0.get(ground0.size()-1))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.elevator_icon))
+                                        .title(getString(R.string.path_elevator_title))
+                                        .snippet(getString(R.string.path_elevator_body_1) + " "
+                                                + String.valueOf(finishFloor) + " "
+                                                + getString(R.string.path_elevator_body_2)));
+                            }
+                        }
                     }
                     break;
 
@@ -306,13 +355,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     if (!ground1.isEmpty())
                     {
-                        mMap.addMarker(new MarkerOptions().position(ground1.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        startPoint = mMap.addMarker(new MarkerOptions().position(ground1.get(0))
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.start_point_icon))
+                                .title(getString(R.string.path_startpoint_title))
+                                .snippet(getString(R.string.path_startpoint_body)));
+
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(ground1.get(0)));
                         for (LatLng i: ground1)
                             polylineOptions1.add(i).width(10).color(Color.RED);
 
                         polyline = mMap.addPolyline(polylineOptions1);
-                        mMap.addMarker(new MarkerOptions().position(ground1.get(ground1.size()-1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+                        if (finishFloor == 1)
+                        {
+                            finishPoint = mMap.addMarker(new MarkerOptions().position(ground1.get(ground1.size()-1))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.finish_point_icon))
+                                    .title(getString(R.string.path_finishpoint_title))
+                                    .snippet(getString(R.string.path_finishpoint_body)));
+                        }
+                        else
+                        {
+                            if (!mode)
+                            {
+                                finishPoint = mMap.addMarker(new MarkerOptions()
+                                        .position(ground1.get(ground1.size()-1))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.staircase_icon))
+                                        .title(getString(R.string.path_stairs_title))
+                                        .snippet(getString(R.string.path_stairs_body_1) + " "
+                                                + String.valueOf(finishFloor) + " "
+                                                + getString(R.string.path_stairs_body_2)));
+                            }
+                            else
+                            {
+                                finishPoint = mMap.addMarker(new MarkerOptions()
+                                        .position(ground1.get(ground1.size()-1))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.elevator_icon))
+                                        .title(getString(R.string.path_elevator_title))
+                                        .snippet(getString(R.string.path_elevator_body_1) + " "
+                                                + String.valueOf(finishFloor) + " "
+                                                + getString(R.string.path_elevator_body_2)));
+                            }
+                        }
                     }
                     break;
 
@@ -325,18 +408,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     if (!ground2.isEmpty())
                     {
-                        mMap.addMarker(new MarkerOptions().position(ground2.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                        startPoint = mMap.addMarker(new MarkerOptions().position(ground2.get(0))
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.start_point_icon))
+                                .title(getString(R.string.path_startpoint_title))
+                                .snippet(getString(R.string.path_startpoint_body)));
+
+
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(ground2.get(0)));
                         for (LatLng i: ground2)
                             polylineOptions2.add(i).width(10).color(Color.RED);
 
                         polyline = mMap.addPolyline(polylineOptions2);
-                        mMap.addMarker(new MarkerOptions().position(ground2.get(ground2.size()-1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+                        if (finishFloor == 2)
+                        {
+                            finishPoint = mMap.addMarker(new MarkerOptions()
+                                    .position(ground2.get(ground2.size()-1))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.finish_point_icon))
+                                    .title(getString(R.string.path_finishpoint_title))
+                                    .snippet(getString(R.string.path_finishpoint_body)));
+                        }
+                        else
+                        {
+                            if (!mode)
+                            {
+                                finishPoint = mMap.addMarker(new MarkerOptions()
+                                        .position(ground2.get(ground2.size()-1))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.staircase_icon))
+                                        .title(getString(R.string.path_stairs_title))
+                                        .snippet(getString(R.string.path_stairs_body_1) + " "
+                                                + String.valueOf(finishFloor) + " "
+                                                + getString(R.string.path_stairs_body_2)));
+                            }
+                            else
+                            {
+                                finishPoint = mMap.addMarker(new MarkerOptions()
+                                        .position(ground2.get(ground2.size()-1))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.elevator_icon))
+                                        .title(getString(R.string.path_elevator_title))
+                                        .snippet(getString(R.string.path_elevator_body_1) + " "
+                                                + String.valueOf(finishFloor) + " "
+                                                + getString(R.string.path_elevator_body_2)));
+                            }
+                        }
                     }
                     break;
             }
-
-            //Toast.makeText(this, "Piętro: " + this.getFloor(), Toast.LENGTH_SHORT).show();
+            if (startPoint != null) startPoint.showInfoWindow();
+            if (finishPoint != null) finishPoint.showInfoWindow();
         }
     }
 
@@ -405,15 +524,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
+        String startPoint = "";
+        String finishPoint = "";
 
         if(requestCode == REQUEST_CODE_CHOOSE_ROUTE && resultCode == Activity.RESULT_OK)
         {
             Bundle bundle = data.getExtras();
-            String startPoint = bundle.getString("startPoint");
-            String finishPoint = bundle.getString("finishPoint");
-            boolean mode = bundle.getBoolean("mode");
+            try
+            {
+                startPoint = bundle.getString("startPoint");
+                finishPoint = bundle.getString("finishPoint");
+            }catch (NullPointerException e)
+            {
+                e.printStackTrace();
+            }
+            this.mode = bundle.getBoolean("mode");
 
-            this.makePath(startPoint, finishPoint, mode);
+            this.makePath(startPoint, finishPoint, this.mode);
         }
     }
 }
