@@ -37,9 +37,9 @@ public class ChooseRouteActivity extends Activity
 
     private boolean areDataCorrect()
     {
-        return (!textViewStartPoint.getText().equals("Nie wybrano...")
-                &&
-                !textViewFinishPoint.getText().equals("Nie wybrano..."));
+        return !(textViewStartPoint.getText().equals(getString(R.string.notChoose))
+                ||
+                 textViewFinishPoint.getText().equals(getString(R.string.notChoose)));
     }
 
     public void buttonChooseStartOnClick(View v)

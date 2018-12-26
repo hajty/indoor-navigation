@@ -373,12 +373,16 @@ public class PointsDbHelper extends SQLiteOpenHelper
                 null,
                 null
         );
-        cursor.moveToNext();
 
-        return cursor.getInt(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry._ID));
+        if (cursor != null)
+        {
+            cursor.moveToNext();
+            return cursor.getInt(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry._ID));
+        }
+        else return 0;
     }
 
-    public Cursor getPoint(String roomName)
+    public int getPoint(String roomName)
     {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -398,7 +402,8 @@ public class PointsDbHelper extends SQLiteOpenHelper
                 null
         );
 
-        rooms.moveToNext();
+        if (rooms != null) rooms.moveToNext();
+        else return 0;
 
         String[] pointsProjection = {
                 PointsContract.PointsEntry._ID,
@@ -420,7 +425,12 @@ public class PointsDbHelper extends SQLiteOpenHelper
                 null
         );
 
-        return points;
+        if (points != null)
+        {
+            points.moveToNext();
+            return points.getInt(points.getColumnIndexOrThrow(PointsContract.PointsEntry._ID));
+        }
+        else return 0;
     }
 
     public Cursor getPoint(String[] MACs)

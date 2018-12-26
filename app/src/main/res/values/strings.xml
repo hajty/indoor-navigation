@@ -4,6 +4,9 @@
     <string name="title_activity_menu">Menu</string>
     <string name="title_activity_choose_route">Wybór trasy</string>
 
+    <string name="wifiWait">Przekroczono limit skanowań. \nOdczekaj chwilę i spróbuj ponownie.</string>
+    <string name="locationOffTitle">Lokalizacja jest wyłączona</string>
+    <string name="locationOffBody">Aby aplikacja mogła ustalić gdzie jesteś, musisz włączyć lokalizację.</string>
     <string name="floorGround">Parter</string>
     <string name="floor1">Piętro: 1</string>
     <string name="floor2">Piętro: 2</string>
@@ -34,4 +37,15 @@
     <string name="caretakerPhonenumber">+48733966595</string>
     <string name="caretakerSuccessfulMessage">Osoba niepełnosprawna potrzebuje pomocy. Znajduje się w pobliżu pokojów:</string>
     <string name="caretakerFailureMessage">Osoba niepełnosprawna potrzebuje pomocy. Jej lokalizacja nie mogła zostać określona. Została jej przekazana informacja o pozostanie w pobliżu wejścia do budynku.</string>
+
+    <string name="path_startpoint_title">Punkt początkowy</string>
+    <string name="path_startpoint_body">Tu jesteś!</string>
+    <string name="path_finishpoint_title">Punkt docelowy</string>
+    <string name="path_finishpoint_body">Tutaj chcesz dojść!</string>
+    <string name="path_stairs_title">Klatka schodowa</string>
+    <string name="path_stairs_body_1">Wejdź schodami na</string>
+    <string name="path_stairs_body_2">piętro.</string>
+    <string name="path_elevator_title">Winda</string>
+    <string name="path_elevator_body_1">Wjedź windą na</string>
+    <string name="path_elevator_body_2">piętro.</string>
 </resources>

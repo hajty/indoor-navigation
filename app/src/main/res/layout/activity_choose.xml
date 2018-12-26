@@ -82,7 +82,8 @@
         android:drawableStart="@drawable/disabled_logo"
         android:drawablePadding="5dp"
         android:text="@string/checkBoxInvalid"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:buttonTint="@android:color/white"/>
 
     <Button
         android:id="@+id/buttonChooseRoute"
