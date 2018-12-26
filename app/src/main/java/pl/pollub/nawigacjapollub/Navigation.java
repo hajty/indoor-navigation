@@ -14,28 +14,26 @@ public class Navigation
         this.context = context;
     }
 
-    public LatLng localize(String[] MACs)
+    public LatLng localizeByWifi()
     {
+        WifiHelper wifiHelper = new WifiHelper(this.context);
         PointsDbHelper db = new PointsDbHelper(this.context);
         Double n, e;
         Cursor cursor;
-        LatLng position;
 
-        cursor = db.getPoint(MACs);
+        String[] macs = wifiHelper.getBestMacs(2);
+
+        if (macs != null) cursor = db.getCoordinates(macs);
+        else return null;
 
         if (cursor != null)
         {
-            if (cursor.getCount() != 0)
-            {
-                cursor.moveToNext();
-                n = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_N));
-                e = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_E));
-                position = new LatLng(n, e);
-            }
-            else position = null;
-        }
-        else position = null;
+            cursor.moveToNext();
+            n = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_N));
+            e = cursor.getDouble(cursor.getColumnIndexOrThrow(PointsContract.PointsEntry.COLUMN_NAME_E));
 
-        return position;
+            return new LatLng(n, e);
+        }
+        else return null;
     }
 }

@@ -2,6 +2,7 @@ package pl.pollub.nawigacjapollub;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,103 +12,62 @@ import android.widget.Toast;
 
 public class MenuActivity extends Activity
 {
-    public final static int REQUEST_SMS = 100;
-    public final static int REQUEST_ACCESS_FINE_LOCATION = 200;
-    public final static int REQUEST_ACCESS_COARSE_LOCATION = 300;
-    public final static int REQUEST_ACCESS_WIFI = 400;
-    public final static int REQUEST_CHANGE_WIFI = 500;
+    public final static int PERMISSIONS_ALL = 600;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        this.context = this.getApplicationContext();
         this.setTitle(getResources().getString(R.string.title_activity_menu));
 
-        ActivityCompat.requestPermissions(MenuActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_ACCESS_FINE_LOCATION);
-        ActivityCompat.requestPermissions(MenuActivity.this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                REQUEST_ACCESS_COARSE_LOCATION);
+        this.checkForPermissions();
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
-//    {
-//        switch (requestCode)
-//        {
-//            case REQUEST_SMS:
-//            {
-//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia wysyłania SMS",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//                else
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień wysyłania SMS",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            case REQUEST_ACCESS_FINE_LOCATION:
-//            {
-//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//                else
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            case REQUEST_ACCESS_COARSE_LOCATION:
-//            {
-//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia lokalizacji",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//                else
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień lokalizacji",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            case REQUEST_ACCESS_WIFI:
-//            {
-//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia stanu sieci Wi-Fi",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//                else
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień stanu sieci Wi-Fi",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            case REQUEST_CHANGE_WIFI:
-//            {
-//                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nadano uprawnienia zmiany sieci Wi-Fi",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//                else
-//                {
-//                    Toast.makeText(getApplicationContext(), "Nie nadano uprawnień zmiany sieci Wi-Fi",
-//                            Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }
-//    }
+    private static boolean hasPermissions(Context context, String[] permissions)
+    {
+        if (context != null && permissions != null)
+        {
+            for (String permission : permissions)
+            {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void checkForPermissions()
+    {
+        String[] PERMISSIONS = {
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.CHANGE_WIFI_STATE
+        };
+
+        if(!hasPermissions(this, PERMISSIONS))
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSIONS_ALL);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    {
+        if (requestCode == PERMISSIONS_ALL)
+        {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Toast.makeText(this.context, "Nadano wszystkie potrzebne uprawnienia",
+                        Toast.LENGTH_LONG).show();
+            }
+            else this.checkForPermissions();
+        }
+    }
 
     public void buttonWeiiOnClick(View v)
     {
@@ -126,5 +86,4 @@ public class MenuActivity extends Activity
         Intent intent = new Intent(this, TestWifiActivity.class);
         startActivity(intent);
     }
-
 }

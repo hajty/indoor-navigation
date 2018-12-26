@@ -4,16 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 public class ChooseRouteActivity extends Activity
 {
-    private TextView startPoint;
-    private TextView finishPoint;
+    private boolean mode;
+    private String startPoint;
+    private String finishPoint;
+    private TextView textViewStartPoint;
+    private TextView textViewFinishPoint;
+    private CheckBox checkBoxInvalid;
+    private Button buttonChooseRoute;
 
     public final static int REQUEST_CODE_CHOOSE_START = 1;
     public final static int REQUEST_CODE_CHOOSE_FINISH = 2;
@@ -24,47 +27,70 @@ public class ChooseRouteActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
 
-        startPoint = findViewById(R.id.startPoint);
-        finishPoint = findViewById(R.id.finishPoint);
+        textViewStartPoint = findViewById(R.id.startPoint);
+        textViewFinishPoint = findViewById(R.id.finishPoint);
+        checkBoxInvalid = findViewById(R.id.checkBoxInvalid);
+        buttonChooseRoute = findViewById(R.id.buttonChooseRoute);
+
+        buttonChooseRoute.setEnabled(false);
     }
 
-    public void buttonChooseStart(View v) {
+    private boolean areDataCorrect()
+    {
+        return (!textViewStartPoint.getText().equals("Nie wybrano...")
+                &&
+                !textViewFinishPoint.getText().equals("Nie wybrano..."));
+    }
+
+    public void buttonChooseStartOnClick(View v)
+    {
         Intent intent = new Intent(this, RoomListActivity.class);
+        intent.putExtra("request_code", REQUEST_CODE_CHOOSE_START);
+
         startActivityForResult(intent, REQUEST_CODE_CHOOSE_START);
     }
 
-    public void buttonChooseEnd(View v) {
+    public void buttonChooseEndOnClick(View v)
+    {
         Intent intent = new Intent(this, RoomListActivity.class);
+        intent.putExtra("request_code", REQUEST_CODE_CHOOSE_FINISH);
+
         startActivityForResult(intent, REQUEST_CODE_CHOOSE_FINISH);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void buttonChooseRouteOnClick(View v)
+    {
+        mode = checkBoxInvalid.isChecked();
+
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("mode", mode);
+        returnIntent.putExtra("startPoint", startPoint);
+        returnIntent.putExtra("finishPoint", finishPoint);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE_CHOOSE_START && resultCode == Activity.RESULT_OK)
         {
             Bundle bundle = data.getExtras();
-            String value = bundle.getString("result");
+            this.startPoint = bundle.getString("result");
 
-            startPoint.setText(value);
-
-            Intent intentStartPoint = new Intent();
-            intentStartPoint.putExtra("start", value);
-            setResult(Activity.RESULT_OK, intentStartPoint);
-            finish();
+            textViewStartPoint.setText(this.startPoint);
         }
 
         if(requestCode == REQUEST_CODE_CHOOSE_FINISH && resultCode == Activity.RESULT_OK)
         {
             Bundle bundle = data.getExtras();
-            String value = bundle.getString("result");
+            this.finishPoint = bundle.getString("result");
 
-            finishPoint.setText(value);
-
-            Intent intentFinishPoint = new Intent();
-            intentFinishPoint.putExtra("finish", value);
-            setResult(Activity.RESULT_OK, intentFinishPoint);
-            finish();
+            textViewFinishPoint.setText(this.finishPoint);
         }
+
+        if (this.areDataCorrect()) buttonChooseRoute.setEnabled(true);
+        else buttonChooseRoute.setEnabled(false);
     }
 }

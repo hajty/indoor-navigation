@@ -2,6 +2,11 @@
     <string name="app_name">Nawigacja Pollub</string>
     <string name="title_activity_maps">Mapa</string>
     <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_choose_route">Wybór trasy</string>
+
+    <string name="floorGround">Parter</string>
+    <string name="floor1">Piętro: 1</string>
+    <string name="floor2">Piętro: 2</string>
     <string name="callHelpButton">Button</string>
     <string name="buttonWeii">Wydział Elektrotechniki i Informatyki</string>
     <string name="todo">TODO</string>
@@ -9,6 +14,24 @@
     <string name="finishLabel">Punkt końcowy:</string>
     <string name="startButton">Wyznacz trasę</string>
     <string name="chooseButton">Wybierz</string>
-    <string name="notChoose">Nie wybrano...</string>
+    <string name="notChoose">Nie wybrano&#8230;</string>
+    <string name="checkBoxInvalid">Jestem inwalidą</string>
 
+    <string name="messageButtonOk">OK</string>
+    <string name="messageButtonCancel">Anuluj</string>
+
+    <string name="callHelpInfoMessage">Czy chcesz wezwać pomoc?</string>
+
+    <string name="reachedTargetMessageTitle">Dotarłeś do celu</string>
+    <string name="reachedTargetMessageBody">Punkt docelowy został osiągnięty.</string>
+    <string name="failureMessageTitle">Nie udało się ustalić lokalizacji</string>
+    <string name="failureMessageBody">Przykro mi, ale nie udało się ustalić twojej lokalizacji&#8230; \nSpróbuj ponownie lub wybierz przybliżony punkt początkowy.</string>
+
+    <string name="callHelpMessageTitle">Wezwano pomoc</string>
+    <string name="callHelpSuccessfulMessage">Dozorca budynku został powiadomiony o tym, że potrzebujesz pomocy. Proszę pozostań na miejscu i zaczekaj.</string>
+    <string name="callHelpFailureMessage">Dozorca budynku został powiadomiony o tym, że potrzebujesz pomocy. Twoja lokalizacja jednak nie mogła zostać określona, więc postaraj się zaczekać przy wejściu do budynku.</string>
+
+    <string name="caretakerPhonenumber">+48733966595</string>
+    <string name="caretakerSuccessfulMessage">Osoba niepełnosprawna potrzebuje pomocy. Znajduje się w pobliżu pokojów:</string>
+    <string name="caretakerFailureMessage">Osoba niepełnosprawna potrzebuje pomocy. Jej lokalizacja nie mogła zostać określona. Została jej przekazana informacja o pozostanie w pobliżu wejścia do budynku.</string>
 </resources>

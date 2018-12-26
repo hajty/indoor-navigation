@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.pollub.nawigacjapollub">
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
-    -->
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -15,9 +10,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/pollub_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/pollub_logo"
         android:supportsRtl="true"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
@@ -36,31 +31,35 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".RoomListActivity"></activity>
+        <activity
+            android:name=".RoomListActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".ChooseRouteActivity"
-            android:label="@string/title_activity_maps"></activity>
-
-            android:label="@string/title_activity_maps" />
-
-        <!-- temporary to fix bug with Android Pie 9.0 -->
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
+            android:label="@string/title_activity_choose_route"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".MenuActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".TestDatabaseActivity" />
         <activity android:name=".TestWifiActivity"></activity>
+
+        <!-- temporary to fix bug with Android Pie 9.0 -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

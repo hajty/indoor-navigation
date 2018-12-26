@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.Collections;
 import java.util.List;
 
 public class RoomListActivity extends Activity
@@ -19,10 +20,18 @@ public class RoomListActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roomslist);
+        Bundle bundle = getIntent().getExtras();
 
         listView = findViewById(R.id.list);
         PointsDbHelper dbHelper = new PointsDbHelper(this);
         List<String> roomList = dbHelper.getAllRoomsAsList();
+
+        if (bundle.getInt("request_code") == ChooseRouteActivity.REQUEST_CODE_CHOOSE_START)
+        {
+            Collections.reverse(roomList);
+            roomList.add("Twoja lokalizacja");
+            Collections.reverse(roomList);
+        }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 RoomListActivity.this,

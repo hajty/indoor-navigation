@@ -17,12 +17,6 @@
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"/>
 
-    <!--<Spinner
-        android:id="@+id/listFirst"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />-->
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/chooseButton"
-            android:onClick="buttonChooseStart"/>
+            android:onClick="buttonChooseStartOnClick"/>
 
     </LinearLayout>
 
@@ -55,11 +49,6 @@
         android:text="@string/finishLabel"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"/>
-
-    <!--<Spinner
-        android:id="@+id/listLast"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -80,16 +69,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/chooseButton"
-            android:onClick="buttonChooseEnd"/>
+            android:onClick="buttonChooseEndOnClick"/>
 
     </LinearLayout>
 
+    <CheckBox
+        android:id="@+id/checkBoxInvalid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:drawableStart="@drawable/disabled_logo"
+        android:drawablePadding="5dp"
+        android:text="@string/checkBoxInvalid"
+        android:textColor="@android:color/white"/>
+
     <Button
-        android:id="@+id/start"
+        android:id="@+id/buttonChooseRoute"
         style="@style/Base.TextAppearance.AppCompat.Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
+        android:onClick="buttonChooseRouteOnClick"
         android:text="@string/startButton" />
 </LinearLayout>
