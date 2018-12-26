@@ -23,17 +23,18 @@
         android:layout_marginTop="20dp"
         android:onClick="buttonWeiiOnClick"
         android:text="@string/button_weii" />
-    <Button
-        android:id="@+id/buttonTestDatabase"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="buttonTestDatabaseOnClick"
-        android:text="Test Database" />
 
-    <Button
-        android:id="@+id/buttonTestWifi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="buttonTestWifiOnClick"
-        android:text="Test Wifi" />
+    <!--<Button-->
+        <!--android:id="@+id/buttonTestDatabase"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="buttonTestDatabaseOnClick"-->
+        <!--android:text="Test Database" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/buttonTestWifi"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="buttonTestWifiOnClick"-->
+        <!--android:text="Test Wifi" />-->
 </LinearLayout>

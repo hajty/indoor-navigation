@@ -26,7 +26,7 @@
         android:id="@+id/buttonChooseRoute"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_gravity="start|bottom"
+        android:layout_gravity="end|bottom"
         android:layout_marginStart="60dp"
         android:layout_marginBottom="10dp"
         android:drawableBottom="@drawable/ic_add_location_black_24dp"
@@ -40,15 +40,6 @@
         android:textSize="30sp"
         android:fontFamily="sans-serif"
         android:textColor="@android:color/black"/>
-
-    <Button
-        android:id="@+id/buttonLocalizeMe"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="10dp"
-        android:drawableBottom="@drawable/ic_add_location_black_24dp"
-        android:onClick="buttonLocalizeMeOnClick" />
 
     <Button
         android:id="@+id/buttonUp"
@@ -72,5 +63,12 @@
         android:layout_marginTop="60dp"
         android:onClick="floorDown"/>
 
-
+    <!--<Button-->
+    <!--android:id="@+id/buttonLocalizeMe"-->
+    <!--android:layout_width="60dp"-->
+    <!--android:layout_height="60dp"-->
+    <!--android:layout_gravity="start|bottom"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:drawableBottom="@drawable/ic_add_location_black_24dp"-->
+    <!--android:onClick="buttonLocalizeMeOnClick" />-->
 </FrameLayout>
