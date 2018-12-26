@@ -4,39 +4,41 @@
     <string name="title_activity_menu">Menu</string>
     <string name="title_activity_choose_route">Wybór trasy</string>
 
-    <string name="wifiWait">Przekroczono limit skanowań. \nOdczekaj chwilę i spróbuj ponownie.</string>
-    <string name="locationOffTitle">Lokalizacja jest wyłączona</string>
-    <string name="locationOffBody">Aby aplikacja mogła ustalić gdzie jesteś, musisz włączyć lokalizację.</string>
-    <string name="floorGround">Parter</string>
-    <string name="floor1">Piętro: 1</string>
-    <string name="floor2">Piętro: 2</string>
-    <string name="callHelpButton">Button</string>
-    <string name="buttonWeii">Wydział Elektrotechniki i Informatyki</string>
-    <string name="todo">TODO</string>
-    <string name="startLabel">Punkt początkowy:</string>
-    <string name="finishLabel">Punkt końcowy:</string>
-    <string name="startButton">Wyznacz trasę</string>
-    <string name="chooseButton">Wybierz</string>
-    <string name="notChoose">Nie wybrano&#8230;</string>
-    <string name="checkBoxInvalid">Jestem inwalidą</string>
+    <string name="label_floor_ground">Parter</string>
+    <string name="label_floor_1">Piętro: 1</string>
+    <string name="label_floor_2">Piętro: 2</string>
+    <string name="label_start">Punkt początkowy:</string>
+    <string name="label_finish">Punkt końcowy:</string>
+    <string name="label_notchoose">Nie wybrano&#8230;</string>
 
-    <string name="messageButtonOk">OK</string>
-    <string name="messageButtonCancel">Anuluj</string>
+    <string name="button_weii">Wydział Elektrotechniki i Informatyki</string>
+    <string name="button_callhelp">Button</string>
+    <string name="button_choose">Wybierz</string>
+    <string name="button_choose_route">Wyznacz trasę</string>
+    <string name="button_message_ok">OK</string>
+    <string name="button_message_cancel">Anuluj</string>
 
-    <string name="callHelpInfoMessage">Czy chcesz wezwać pomoc?</string>
+    <string name="checkbox_invalid">Jestem inwalidą</string>
 
-    <string name="reachedTargetMessageTitle">Dotarłeś do celu</string>
-    <string name="reachedTargetMessageBody">Punkt docelowy został osiągnięty.</string>
-    <string name="failureMessageTitle">Nie udało się ustalić lokalizacji</string>
-    <string name="failureMessageBody">Przykro mi, ale nie udało się ustalić twojej lokalizacji&#8230; \nSpróbuj ponownie lub wybierz przybliżony punkt początkowy.</string>
+    <string name="reachedtarget_message_title">Dotarłeś do celu</string>
+    <string name="reachedtarget_message_body">Punkt docelowy został osiągnięty.</string>
 
-    <string name="callHelpMessageTitle">Wezwano pomoc</string>
-    <string name="callHelpSuccessfulMessage">Dozorca budynku został powiadomiony o tym, że potrzebujesz pomocy. Proszę pozostań na miejscu i zaczekaj.</string>
-    <string name="callHelpFailureMessage">Dozorca budynku został powiadomiony o tym, że potrzebujesz pomocy. Twoja lokalizacja jednak nie mogła zostać określona, więc postaraj się zaczekać przy wejściu do budynku.</string>
+    <string name="localization_failure_message_title">Nie udało się ustalić lokalizacji</string>
+    <string name="localization_failure_message_body">Przykro mi, ale nie udało się ustalić twojej lokalizacji&#8230; \nSpróbuj ponownie lub wybierz przybliżony punkt początkowy.</string>
 
-    <string name="caretakerPhonenumber">+48733966595</string>
-    <string name="caretakerSuccessfulMessage">Osoba niepełnosprawna potrzebuje pomocy. Znajduje się w pobliżu pokojów:</string>
-    <string name="caretakerFailureMessage">Osoba niepełnosprawna potrzebuje pomocy. Jej lokalizacja nie mogła zostać określona. Została jej przekazana informacja o pozostanie w pobliżu wejścia do budynku.</string>
+    <string name="locationofff_title">Lokalizacja jest wyłączona</string>
+    <string name="locationoff_body">Aby aplikacja mogła ustalić gdzie jesteś, musisz włączyć lokalizację.</string>
+
+    <string name="callhelp_message_info">Czy chcesz wezwać pomoc?</string>
+    <string name="callhelp_message_title">Wezwano pomoc</string>
+    <string name="callhelp_message_successful">Dozorca budynku został powiadomiony o tym, że potrzebujesz pomocy. Proszę pozostań na miejscu i zaczekaj.</string>
+    <string name="callhelp_message_failure">Dozorca budynku został powiadomiony o tym, że potrzebujesz pomocy. Twoja lokalizacja jednak nie mogła zostać określona, więc postaraj się zaczekać przy wejściu do budynku.</string>
+
+    <string name="caretaker_phonenumber">+48733966595</string>
+    <string name="caretaker_message_successful">Osoba niepełnosprawna potrzebuje pomocy. Znajduje się w pobliżu pokojów:</string>
+    <string name="caretaker_message_failure">Osoba niepełnosprawna potrzebuje pomocy. Jej lokalizacja nie mogła zostać określona. Została jej przekazana informacja o pozostanie w pobliżu wejścia do budynku.</string>
+
+    <string name="wifi_wait">Przekroczono limit skanowań. \nOdczekaj chwilę i spróbuj ponownie.</string>
 
     <string name="path_startpoint_title">Punkt początkowy</string>
     <string name="path_startpoint_body">Tu jesteś!</string>

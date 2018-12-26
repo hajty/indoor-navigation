@@ -36,7 +36,7 @@ public class WifiHelper
         if (success) scanSuccess();
         else
         {
-            Toast.makeText(this.context, this.context.getString(R.string.wifiWait), Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context, this.context.getString(R.string.wifi_wait), Toast.LENGTH_LONG).show();
             return null;
         }
 

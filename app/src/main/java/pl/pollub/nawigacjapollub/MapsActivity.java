@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
@@ -49,7 +48,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final LatLngBounds weiiBounds = new LatLngBounds(                                        // Wierzchołki prostokąta do podmiany
             new LatLng(51.236381, 22.548308),                                                // SW
             new LatLng(51.237231, 22.549652));                                               // NE
-    private final LatLng weiiMarker = new LatLng(51.236994, 22.54918);                       // Współrzędne markera WEII
     private final LatLng weiiCamera = new LatLng(51.237132, 22.54927);                       // Współrzędne do ustawienia kamery
 
     public int getFloor()
@@ -138,12 +136,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         builder.setTitle(titleId);
         builder.setMessage(messageId);
 
-        builder.setNeutralButton(R.string.messageButtonOk, new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.button_message_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                if (titleId == R.string.failureMessageTitle ||
-                    titleId == R.string.locationOffTitle)
+                if (titleId == R.string.localization_failure_message_title ||
+                    titleId == R.string.locationofff_title)
                     startChooseRouteActivity();
             }
         });
@@ -158,6 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Navigation navigation = new Navigation(this.context);
         PointsDbHelper db = new PointsDbHelper(this.context);
         StringBuilder message = new StringBuilder();
+        ArrayList<String> parts;
         List<String> rooms;
         boolean success;
 
@@ -168,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int idPoint = db.getPoint(position);
             rooms = db.getRooms(idPoint);
 
-            message.append(getString(R.string.caretakerSuccessfulMessage));
+            message.append(getString(R.string.caretaker_message_successful));
             for (String room: rooms)
             {
                 message.append(room);
@@ -180,23 +179,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         else
         {
-            message.append(getString(R.string.caretakerFailureMessage));
+            message.append(getString(R.string.caretaker_message_failure));
             success = false;
         }
 
-        smsManager.sendTextMessage(
-                getString(R.string.caretakerPhonenumber),
+        parts = smsManager.divideMessage(message.toString());
+
+        smsManager.sendMultipartTextMessage(
+                getString(R.string.caretaker_phonenumber),
                 null,
-                message.toString(),
+                parts,
                 null,
                 null);
 
         if (success) this.showMessage(
-                R.string.callHelpMessageTitle,
-                R.string.callHelpSuccessfulMessage);
+                R.string.callhelp_message_title,
+                R.string.callhelp_message_successful);
         else this.showMessage(
-                R.string.callHelpMessageTitle,
-                R.string.callHelpFailureMessage);
+                R.string.callhelp_message_title,
+                R.string.callhelp_message_failure);
     }
 
     private void clearMap()
@@ -263,7 +264,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             showFloor();
 
             if (startPointId == finishPointId) this.showMessage(
-                    R.string.reachedTargetMessageTitle, R.string.reachedTargetMessageBody);
+                    R.string.reachedtarget_message_title, R.string.reachedtarget_message_body);
         }
         else
         {
@@ -271,11 +272,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             if (locationManager.isLocationEnabled())
             {
-                this.showMessage(R.string.failureMessageTitle, R.string.failureMessageBody);
+                this.showMessage(R.string.localization_failure_message_title, R.string.localization_failure_message_body);
             }
             else
             {
-                this.showMessage(R.string.locationOffTitle, R.string.locationOffBody);
+                this.showMessage(R.string.locationofff_title, R.string.locationoff_body);
             }
         }
     }
@@ -285,20 +286,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Marker startPoint = null;
         Marker finishPoint = null;
 
-        if (floor >= 0 && floor <= 2)
+        if (this.getFloor() >= 0 && this.getFloor() <= 2)
         {
             this.clearMap();
-//            mMap.addMarker(new MarkerOptions().position(weiiMarker).draggable(true));                   // Dodanie markera WEII
 
-            switch (floor)
+            switch (this.getFloor())
             {
-                // mMap.addMarker(new MarkerOptions().position(ground0.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 case 0:
                     PolylineOptions polylineOptions0 = new PolylineOptions();
                     mMap.addGroundOverlay(new GroundOverlayOptions()
                             .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_parter))
                             .positionFromBounds(weiiBounds));
-                    textViewFloor.setText(R.string.floorGround);
+                    textViewFloor.setText(R.string.label_floor_ground);
 
                     if (!ground0.isEmpty())
                     {
@@ -351,7 +350,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.addGroundOverlay(new GroundOverlayOptions()
                             .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_i_pietro))
                             .positionFromBounds(weiiBounds));
-                    textViewFloor.setText(R.string.floor1);
+                    textViewFloor.setText(R.string.label_floor_1);
 
                     if (!ground1.isEmpty())
                     {
@@ -404,7 +403,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.addGroundOverlay(new GroundOverlayOptions()
                             .image(BitmapDescriptorFactory.fromResource(R.drawable.weii_ii_pietro))
                             .positionFromBounds(weiiBounds));
-                    textViewFloor.setText(R.string.floor2);
+                    textViewFloor.setText(R.string.label_floor_2);
 
                     if (!ground2.isEmpty())
                     {
@@ -461,7 +460,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void floorUp(View v)
     {
-        if (floor != 2)
+        if (this.getFloor() != 2)
         {
             floor++;
             showFloor();
@@ -470,7 +469,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void floorDown(View v)
     {
-        if (floor != 0)
+        if (this.getFloor() != 0)
         {
             floor--;
             showFloor();
@@ -481,9 +480,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
 
-        builder.setMessage(R.string.callHelpInfoMessage);
+        builder.setMessage(R.string.callhelp_message_info);
 
-        builder.setPositiveButton(R.string.messageButtonOk, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.button_message_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
@@ -491,7 +490,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        builder.setNegativeButton(R.string.messageButtonCancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.button_message_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {}
         });
