@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 public class ChooseRouteActivity extends Activity
 {
-    private boolean mode;
     private String startPoint;
     private String finishPoint;
     private TextView textViewStartPoint;
@@ -37,9 +36,9 @@ public class ChooseRouteActivity extends Activity
 
     private boolean areDataCorrect()
     {
-        return !(textViewStartPoint.getText().equals(getString(R.string.notChoose))
+        return !(textViewStartPoint.getText().equals(getString(R.string.label_notchoose))
                 ||
-                 textViewFinishPoint.getText().equals(getString(R.string.notChoose)));
+                 textViewFinishPoint.getText().equals(getString(R.string.label_notchoose)));
     }
 
     public void buttonChooseStartOnClick(View v)
@@ -60,7 +59,7 @@ public class ChooseRouteActivity extends Activity
 
     public void buttonChooseRouteOnClick(View v)
     {
-        mode = checkBoxInvalid.isChecked();
+        boolean mode = checkBoxInvalid.isChecked();
 
         Intent returnIntent = new Intent();
         returnIntent.putExtra("mode", mode);
