@@ -34,7 +34,7 @@
     <string name="callhelp_message_successful">Dozorca budynku został powiadomiony o tym, że potrzebujesz pomocy. Proszę pozostań na miejscu i zaczekaj.</string>
     <string name="callhelp_message_failure">Dozorca budynku został powiadomiony o tym, że potrzebujesz pomocy. Twoja lokalizacja jednak nie mogła zostać określona, więc postaraj się zaczekać przy wejściu do budynku.</string>
 
-    <string name="caretaker_phonenumber">+48733966595</string>
+    <string name="caretaker_phonenumber">NUMER_TELEFONU_DOZORCY</string>
     <string name="caretaker_message_successful">Osoba niepełnosprawna potrzebuje pomocy. Znajduje się w pobliżu pokojów:</string>
     <string name="caretaker_message_failure">Osoba niepełnosprawna potrzebuje pomocy. Jej lokalizacja nie mogła zostać określona. Została jej przekazana informacja o pozostanie w pobliżu wejścia do budynku.</string>
 

@@ -25,8 +25,7 @@ public class Node
         return distanceFromSource;
     }
 
-    public void setDistanceFromSource(int distanceFromSource)
-    {
+    public void setDistanceFromSource(int distanceFromSource) {
         this.distanceFromSource = distanceFromSource;
     }
 

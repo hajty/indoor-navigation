@@ -24,6 +24,7 @@
         android:onClick="buttonWeiiOnClick"
         android:text="@string/button_weii" />
 
+    <!--DO TESTÓW-->
     <!--<Button-->
         <!--android:id="@+id/buttonTestDatabase"-->
         <!--android:layout_width="match_parent"-->

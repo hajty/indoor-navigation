@@ -94,9 +94,10 @@ public class Graph
         return storedNodeIndex;
     }
 
-    public void calculateShortestDistances()
+    // obliczenie najkrótszej trasy z punktu do wszystkich pozostałych wierzchołków
+    public void calculateShortestDistances(int startPoint)
     {
-        this.nodes[1].setDistanceFromSource(0);
+        this.nodes[startPoint].setDistanceFromSource(0);
         int nextNode = 0;
 
         for (int i = 0; i < this.nodes.length; i++)
@@ -123,6 +124,7 @@ public class Graph
         }
     }
 
+    // obliczenie najkrótszej trasy z punktu do punktu
     public ArrayList<Integer> calculateShortestPath(int startPoint, int finishPoint, boolean mode)
     {
         ArrayList<Integer> tempPath = new ArrayList<>();

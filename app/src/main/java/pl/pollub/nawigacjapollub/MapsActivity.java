@@ -186,6 +186,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         parts = smsManager.divideMessage(message.toString());
 
         smsManager.sendMultipartTextMessage(
+                /*USTAW NUMER TELEFONU DOZORCY W strings.xml!!!*/
                 getString(R.string.caretaker_phonenumber),
                 null,
                 parts,
